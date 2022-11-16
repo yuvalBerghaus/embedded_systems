@@ -1,15 +1,15 @@
-/* 
+/*
  * File:   Lab1.c
  * Author: Yuval
  *
  * Created on November 15, 2022, 8:45 PM
  */
 
-// PIC16F628A Configuration Bit Settings
+ // PIC16F628A Configuration Bit Settings
 
-// 'C' source line config statements
+ // 'C' source line config statements
 
-// CONFIG
+ // CONFIG
 #pragma config FOSC = HS        // Oscillator Selection bits (HS oscillator: High-speed crystal/resonator on RA6/OSC2/CLKOUT and RA7/OSC1/CLKIN)
 #pragma config WDTE = OFF       // Watchdog Timer Enable bit (WDT disabled)
 #pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
@@ -28,46 +28,46 @@
 
 void delay_ms(unsigned int delayMs)
 {
-unsigned int  i;
-unsigned char j;
+    unsigned int  i;
+    unsigned char j;
 
- for (i =0; i< delayMs; i++)
- {
-  for (j =0 ; j < 200; j++)
+    for (i = 0; i < delayMs; i++)
     {
-	asm("NOP");
-	asm("NOP");
+        for (j = 0; j < 200; j++)
+        {
+            asm("NOP");
+            asm("NOP");
+        }
     }
- }
 }
 
 unsigned char display7s(unsigned char v)
 {
-  switch(v)
-  {
+    switch (v)
+    {
     case 0:
-      return 0b11111110;
+        return 0b11111110;
     case 1:
-      return 0b00111000;
+        return 0b00111000;
     case 2:
-      return 0b11011101; //CD
+        return 0b11011101; //CD
     case 3:
-      return 0b01111101;
+        return 0b01111101;
     case 4:
-      return 0b00111011;
+        return 0b00111011;
     case 5:
-      return 0b01110111;
+        return 0b01110111;
     case 6:
-      return 0b11110111;
+        return 0b11110111;
     case 7:
-      return 0b00111100;
+        return 0b00111100;
     case 8:
-      return 0b11111111;
+        return 0b11111111;
     case 9:
-      return 0b01111111;
+        return 0b01111111;
     default:
-      return 0;
-  }
+        return 0;
+    }
 
 }
 
@@ -83,28 +83,28 @@ void displayNumber(unsigned char v) {
     delay_ms(2);
 }
 /*
- * 
+ *
  */
 void main()
 {
-    TRISB=0x00; //All pins as output
-    TRISA=0xFF; //All pins as input
-    PORTB=0; //All pins off
+    TRISB = 0x00; //All pins as output
+    TRISA = 0xFF; //All pins as input
+    PORTB = 0; //All pins off
     unsigned char current_num = 0;
-    while(1) //main loop
+    while (1) //main loop
     {
-        if(PORTAbits.RA1 == 0) {
+        if (PORTAbits.RA1 == 0) {
             current_num++;
             delay_ms(60);
         }
-        if(PORTAbits.RA2 == 0) {
+        if (PORTAbits.RA2 == 0) {
             current_num--;
             delay_ms(60);
         }
-        if(current_num == 0xFF) {
+        if (current_num == 0xFF) {
             current_num = 20;
         }
-        if(current_num > 20) {
+        if (current_num > 20) {
             current_num = 0;
         }
         displayNumber(current_num);
