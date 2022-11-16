@@ -1,0 +1,118 @@
+[p GLOBOPT AUTOSTATIC IEEE_DBL IEEE_FLT PIC14 PICREGULAR PICMID ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 16F628A ]
+[d frameptr 0 ]
+"5 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c90\common\awdiv.c
+[v ___awdiv __awdiv `(i  1 e 2 0 ]
+"5 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c90\common\awmod.c
+[v ___awmod __awmod `(i  1 e 2 0 ]
+"10 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c90\common\sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"4 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c90\common\Umul8_16.c
+[v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
+"6 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c90\pic\__eeprom.c
+[v ___eecpymem __eecpymem `(v  1 e 1 0 ]
+"39
+[v ___memcpyee __memcpyee `(v  1 e 1 0 ]
+"29 C:\Users\Yuval\MPLABXProjects\Lab1.X\Lab1.c
+[v _delay_ms delay_ms `(v  1 e 1 0 ]
+"44
+[v _display7s display7s `(uc  1 e 1 0 ]
+"74
+[v _displayNumber displayNumber `(v  1 e 1 0 ]
+"88
+[v _main main `(v  1 e 1 0 ]
+[s S46 . 1 `uc 1 RA0 1 0 :1:0 
+`uc 1 RA1 1 0 :1:1 
+`uc 1 RA2 1 0 :1:2 
+`uc 1 RA3 1 0 :1:3 
+`uc 1 RA4 1 0 :1:4 
+`uc 1 RA5 1 0 :1:5 
+`uc 1 RA6 1 0 :1:6 
+`uc 1 RA7 1 0 :1:7 
+]
+"184 C:/Program Files/Microchip/MPLABX/v6.05/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f628a.h
+[u S55 . 1 `S46 1 . 1 0 ]
+[v _PORTAbits PORTAbits `VES55  1 e 1 @5 ]
+"229
+[v _PORTB PORTB `VEuc  1 e 1 @6 ]
+[s S23 . 1 `uc 1 RB0 1 0 :1:0 
+`uc 1 RB1 1 0 :1:1 
+`uc 1 RB2 1 0 :1:2 
+`uc 1 RB3 1 0 :1:3 
+`uc 1 RB4 1 0 :1:4 
+`uc 1 RB5 1 0 :1:5 
+`uc 1 RB6 1 0 :1:6 
+`uc 1 RB7 1 0 :1:7 
+]
+"246
+[u S32 . 1 `S23 1 . 1 0 ]
+[v _PORTBbits PORTBbits `VES32  1 e 1 @6 ]
+"908
+[v _TRISA TRISA `VEuc  1 e 1 @133 ]
+"970
+[v _TRISB TRISB `VEuc  1 e 1 @134 ]
+"88 C:\Users\Yuval\MPLABXProjects\Lab1.X\Lab1.c
+[v _main main `(v  1 e 1 0 ]
+{
+"93
+[v main@current_num current_num `uc  1 a 1 1 ]
+"112
+} 0
+"74
+[v _displayNumber displayNumber `(v  1 e 1 0 ]
+{
+[v displayNumber@v v `uc  1 a 1 wreg ]
+"75
+[v displayNumber@unit unit `uc  1 a 1 12 ]
+[v displayNumber@decimal decimal `uc  1 a 1 11 ]
+"74
+[v displayNumber@v v `uc  1 a 1 wreg ]
+"76
+[v displayNumber@v v `uc  1 a 1 13 ]
+"84
+} 0
+"44
+[v _display7s display7s `(uc  1 e 1 0 ]
+{
+[v display7s@v v `uc  1 a 1 wreg ]
+[v display7s@v v `uc  1 a 1 wreg ]
+[v display7s@v v `uc  1 a 1 2 ]
+"72
+} 0
+"29
+[v _delay_ms delay_ms `(v  1 e 1 0 ]
+{
+"31
+[v delay_ms@i i `ui  1 a 2 3 ]
+"32
+[v delay_ms@j j `uc  1 a 1 5 ]
+"29
+[v delay_ms@delayMs delayMs `ui  1 p 2 0 ]
+"42
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c90\common\awmod.c
+[v ___awmod __awmod `(i  1 e 2 0 ]
+{
+"10
+[v ___awmod@sign sign `uc  1 a 1 6 ]
+[v ___awmod@counter counter `uc  1 a 1 5 ]
+"5
+[v ___awmod@divisor divisor `i  1 p 2 0 ]
+[v ___awmod@dividend dividend `i  1 p 2 2 ]
+"34
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c90\common\awdiv.c
+[v ___awdiv __awdiv `(i  1 e 2 0 ]
+{
+"10
+[v ___awdiv@quotient quotient `i  1 a 2 7 ]
+"11
+[v ___awdiv@sign sign `uc  1 a 1 6 ]
+[v ___awdiv@counter counter `uc  1 a 1 5 ]
+"5
+[v ___awdiv@divisor divisor `i  1 p 2 0 ]
+[v ___awdiv@dividend dividend `i  1 p 2 2 ]
+"41
+} 0
