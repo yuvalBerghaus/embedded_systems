@@ -15,6 +15,16 @@
 
 
 
+#pragma config FOSC = HS
+#pragma config WDTE = OFF
+#pragma config PWRTE = OFF
+#pragma config BOREN = OFF
+#pragma config LVP = OFF
+#pragma config CPD = OFF
+#pragma config WRT = OFF
+#pragma config CP = OFF
+
+
 # 1 "C:/Program Files/Microchip/MPLABX/v6.05/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 1 3
 # 18 "C:/Program Files/Microchip/MPLABX/v6.05/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1861,18 +1871,7 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "C:/Program Files/Microchip/MPLABX/v6.05/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 2 3
-# 9 "Lab2.c" 2
-
-
-#pragma config FOSC = HS
-#pragma config WDTE = OFF
-#pragma config PWRTE = OFF
-#pragma config BOREN = OFF
-#pragma config LVP = OFF
-#pragma config CPD = OFF
-#pragma config WRT = OFF
-#pragma config CP = OFF
-
+# 18 "Lab2.c" 2
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.40\\pic\\include\\c90\\stdio.h" 1 3
 
@@ -1971,7 +1970,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 #pragma printf_check(sprintf) const
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
-# 20 "Lab2.c" 2
+# 19 "Lab2.c" 2
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.40\\pic\\include\\c90\\stdlib.h" 1 3
 
@@ -2056,7 +2055,7 @@ extern char * ltoa(char * buf, long val, int base);
 extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
-# 21 "Lab2.c" 2
+# 20 "Lab2.c" 2
 
 void delay_ms(unsigned int delayMs)
 {
@@ -2165,7 +2164,6 @@ void displayHexNumber(int number) {
 void Init() {
     ADCON0 = 13;
     ADCON1bits.ADFM = 1;
-    ADCON0bits.ADON = 1;
     TRISA = 0xFF;
     TRISB = 0x00;
     TRISD = 0x00;
@@ -2185,12 +2183,9 @@ void main() {
             int adresl = ADRESL & low_important;
             res = adresh + adresl;
             res = res & masker;
-            if('B' == 'A') {
+            if('B' == 'A')
                 displayDecNumber(res);
-            }
-            else
-            {
+            else if('B' == 'B')
                 displayHexNumber(res);
-            }
     }
 }

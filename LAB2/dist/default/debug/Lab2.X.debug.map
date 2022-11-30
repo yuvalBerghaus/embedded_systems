@@ -6,9 +6,9 @@ Linker command line:
   --edf=C:\Program Files\Microchip\xc8\v2.40\pic\dat\20220703182018_en.msgs \
   -cn -h+dist/default/debug\Lab2.X.debug.sym \
   --cmf=dist/default/debug\Lab2.X.debug.cmf -z -Q16F877A \
-  -oC:\Users\Yuval\AppData\Local\Temp\xcAsm0.4 --defsym=__MPLAB_BUILD=1 \
+  -oC:\Users\Yuval\AppData\Local\Temp\xcAsgak.4 --defsym=__MPLAB_BUILD=1 \
   --fixupoverflow=error -Mdist/default/debug/Lab2.X.debug.map \
-  --md=C:\Users\Yuval\AppData\Local\Temp\xcAsm0.dat -E1 -ver=XC8 Compiler \
+  --md=C:\Users\Yuval\AppData\Local\Temp\xcAsgak.dat -E1 -ver=XC8 Compiler \
   --acfsm=1493 -ACODE=00h-07FFhx4 -ASTRCODE=00h-01FFFh -ASTRING=00h-0FFhx32 \
   -ACONST=00h-0FFhx32 -AENTRY=00h-0FFhx32 -ACOMMON=070h-07Fh \
   -ABANK0=020h-06Fh -ABANK1=0A0h-0EFh -ABANK2=0110h-016Fh \
@@ -19,7 +19,7 @@ Linker command line:
   -AEEDATA=00h-0FFh/02100h -peeprom_data=EEDATA -DEEDATA=2 -DCODE=2 \
   -DSTRCODE=2 -DSTRING=2 -DCONST=2 -DENTRY=2 \
   -preset_vec=00h,intentry,init,end_init -ppowerup=CODE -pcinit=CODE \
-  -pfunctab=ENTRY -k C:\Users\Yuval\AppData\Local\Temp\xcAsm0.o \
+  -pfunctab=ENTRY -k C:\Users\Yuval\AppData\Local\Temp\xcAsgak.o \
   dist/default/debug\Lab2.X.debug.o 
 
 Object code version is 3.11
@@ -29,7 +29,7 @@ Machine type is 16F877A
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-C:\Users\Yuval\AppData\Local\Temp\xcAsm0.o
+C:\Users\Yuval\AppData\Local\Temp\xcAsgak.o
                 end_init                              0        0        3        0       0
                 config                             2007     2007        1        0       4
                 idloc                              2000     2000        4        0       5
@@ -37,7 +37,7 @@ dist/default/debug\Lab2.X.debug.o
                 cinit                               7FC      7FC        4      FF8       0
                 config                             2007     2007        1        0       4
                 idloc                              2000     2000        4        0       5
-                text7                               515      515       11      A2A       0
+                text7                               51A      51A        C      A34       0
                 text6                               64E      64E       67      C9C       0
                 text5                               594      594       5B      B28       0
                 text4                               526      526       21      A4C       0
@@ -52,7 +52,7 @@ TOTAL           Name                               Link     Load   Length     Sp
         CLASS   CODE           
                 end_init                              0        0        3         0
                 cinit                               7FC      7FC        4         0
-                text7                               515      515       11         0
+                text7                               51A      51A        C         0
                 text6                               64E      64E       67         0
                 text5                               594      594       5B         0
                 text4                               526      526       21         0
@@ -111,7 +111,7 @@ SEGMENTS        Name                           Load    Length   Top    Selector 
                 reset_vec                      000000  000003  000003         0       0  CODE        2
                 cstackBANK0                    000020  000018  000038        20       1  BANK0       1
                 cstackCOMMON                   000070  00000E  00007E        70       1  COMMON      1
-                text7                          000515  000011  000526       A2A       0  CODE        2
+                text7                          00051A  00000C  000526       A34       0  CODE        2
                 text4                          000526  000021  000547       A4C       0  CODE        2
                 maintext                       000547  00004D  000594       A8E       0  CODE        2
                 text5                          000594  00005B  0005EF       B28       0  CODE        2
@@ -129,12 +129,12 @@ UNUSED ADDRESS RANGES
         BANK1            00A0-00EF             50           1
         BANK2            0110-016F             60           1
         BANK3            0190-01EF             60           1
-        CODE             0003-0514            512           2
+        CODE             0003-0519            517           2
                          0800-1FFF            800
-        CONST            0003-0514            100           2
+        CONST            0003-0519            100           2
                          0800-1FFF            100
         EEDATA           2100-21FF            100           2
-        ENTRY            0003-0514            100           2
+        ENTRY            0003-0519            100           2
                          0800-1FFF            100
         RAM              0038-006F             38           1
                          00A0-00EF             50
@@ -144,9 +144,9 @@ UNUSED ADDRESS RANGES
         SFR1             0080-009F             20           1
         SFR2             0100-010F             10           1
         SFR3             0180-018F             10           1
-        STRCODE          0003-0514            512           2
+        STRCODE          0003-0519            517           2
                          0800-1FFF           1800
-        STRING           0003-0514            100           2
+        STRING           0003-0519            100           2
                          0800-1FFF            100
 
                                   Symbol Table
@@ -158,7 +158,7 @@ _ADCON0bits               (abs)        001F
 _ADCON1bits               (abs)        009F
 _ADRESH                   (abs)        001E
 _ADRESL                   (abs)        009E
-_Init                     text7        0515
+_Init                     text7        051A
 _PORTB                    (abs)        0006
 _PORTBbits                (abs)        0006
 _PORTD                    (abs)        0008
@@ -271,7 +271,7 @@ __ptext3                  text3        05EF
 __ptext4                  text4        0526
 __ptext5                  text5        0594
 __ptext6                  text6        064E
-__ptext7                  text7        0515
+__ptext7                  text7        051A
 _delay_ms                 text4        0526
 _display7s                text3        05EF
 _displayDecNumber         text2        072A
@@ -332,8 +332,8 @@ Lab2.c
 		_main          		CODE           	0547	0000	77
 		_displayDecNumber		CODE           	072A	0000	210
 		_displayHexNumber		CODE           	06B5	0000	117
-		_Init          		CODE           	0515	0000	17
+		_Init          		CODE           	051A	0000	12
 		_delay_ms      		CODE           	0526	0000	33
 
-Lab2.c estimated size: 549
+Lab2.c estimated size: 544
 

@@ -6,8 +6,6 @@
  */
 
 
-#include <xc.h>
-
 #pragma config FOSC = HS       
 #pragma config WDTE = OFF     
 #pragma config PWRTE = OFF      
@@ -17,6 +15,7 @@
 #pragma config WRT = OFF        
 #pragma config CP = OFF         
 #define MODE 'B'
+#include <xc.h>
 #include <stdio.h>
 #include <stdlib.h>
 void delay_ms(unsigned int delayMs)
@@ -126,7 +125,6 @@ void displayHexNumber(int number) {
 void Init() {
     ADCON0 = 13;  //CHS0=1, ADON=1
     ADCON1bits.ADFM = 1;
-    ADCON0bits.ADON = 1;
     TRISA = 0xFF;
     TRISB = 0x00;
     TRISD = 0x00;

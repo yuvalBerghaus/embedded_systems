@@ -1,7 +1,7 @@
 
 
 Microchip MPLAB XC8 Assembler V2.40 build 20220703182018 
-                                                                                               Wed Nov 30 19:36:07 2022
+                                                                                               Wed Nov 30 19:45:00 2022
 
 Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1 
      1                           	processor	16F877A
@@ -374,7 +374,7 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    360 ;;
    361 ;; *************** function _main *****************
    362 ;; Defined at:
-   363 ;;		line 135 in file "Lab2.c"
+   363 ;;		line 133 in file "Lab2.c"
    364 ;; Parameters:    Size  Location     Type
    365 ;;		None
    366 ;; Auto vars:     Size  Location     Type
@@ -411,22 +411,22 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    397     0547                     _main:	
    398                           ;psect for function _main
    399                           
-   400     0547                     l1224:	
+   400     0547                     l1221:	
    401                           ;incstack = 0
    402                           ; Regs used in _main: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
    403                           
    404                           
-   405                           ;Lab2.c: 136:     Init();
-   406     0547  120A  118A  2515  120A  118A  	fcall	_Init
-   407     054C                     l1226:
-   408     054C                     l1228:
+   405                           ;Lab2.c: 134:     Init();
+   406     0547  120A  118A  251A  120A  118A  	fcall	_Init
+   407     054C                     l1223:
+   408     054C                     l1225:
    409                           
-   410                           ;Lab2.c: 139:         ADCON0bits.GO = 1;
+   410                           ;Lab2.c: 137:         ADCON0bits.GO = 1;
    411     054C  1283               	bcf	3,5	;RP0=0, select bank0
    412     054D  1303               	bcf	3,6	;RP1=0, select bank0
    413     054E  151F               	bsf	31,2	;volatile
    414     054F                     l67:	
-   415                           ;Lab2.c: 140:         while(ADCON0bits.GO == 1);
+   415                           ;Lab2.c: 138:         while(ADCON0bits.GO == 1);
    416                           
    417     054F  191F               	btfsc	31,2	;volatile
    418     0550  2D52               	goto	u441
@@ -434,22 +434,22 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    420     0552                     u441:
    421     0552  2D4F               	goto	l67
    422     0553                     u440:
-   423     0553                     l1230:
+   423     0553                     l1227:
    424                           
-   425                           ;Lab2.c: 142:             int low_important = 0x000000FF;
+   425                           ;Lab2.c: 140:             int low_important = 0x000000FF;
    426     0553  30FF               	movlw	255
    427     0554  00AE               	movwf	main@low_important
    428     0555  3000               	movlw	0
    429     0556  00AF               	movwf	main@low_important+1
    430                           
-   431                           ;Lab2.c: 143:             int masker = 0x000003FF;
+   431                           ;Lab2.c: 141:             int masker = 0x000003FF;
    432     0557  30FF               	movlw	255
    433     0558  00B0               	movwf	main@masker
    434     0559  3003               	movlw	3
    435     055A  00B1               	movwf	main@masker+1
-   436     055B                     l1232:
+   436     055B                     l1229:
    437                           
-   438                           ;Lab2.c: 144:             int adresh = ADRESH & high_important;
+   438                           ;Lab2.c: 142:             int adresh = ADRESH & high_important;
    439     055B  081E               	movf	30,w	;volatile
    440     055C  3903               	andlw	3
    441     055D  00AC               	movwf	??_main
@@ -458,9 +458,9 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    444     0560  00B4               	movwf	main@adresh
    445     0561  082D               	movf	??_main+1,w
    446     0562  00B5               	movwf	main@adresh+1
-   447     0563                     l1234:
+   447     0563                     l1231:
    448                           
-   449                           ;Lab2.c: 145:             adresh = adresh << 8;
+   449                           ;Lab2.c: 143:             adresh = adresh << 8;
    450     0563  0835               	movf	main@adresh+1,w
    451     0564  00AD               	movwf	??_main+1
    452     0565  0834               	movf	main@adresh,w
@@ -472,9 +472,9 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    458     056B  00B4               	movwf	main@adresh
    459     056C  082D               	movf	??_main+1,w
    460     056D  00B5               	movwf	main@adresh+1
-   461     056E                     l1236:
+   461     056E                     l1233:
    462                           
-   463                           ;Lab2.c: 146:             int adresl = ADRESL & low_important;
+   463                           ;Lab2.c: 144:             int adresl = ADRESL & low_important;
    464     056E  1683               	bsf	3,5	;RP0=1, select bank1
    465     056F  1303               	bcf	3,6	;RP1=0, select bank1
    466     0570  081E               	movf	30,w	;volatile
@@ -486,9 +486,9 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    472     0576  00B2               	movwf	main@adresl
    473     0577  082D               	movf	??_main+1,w
    474     0578  00B3               	movwf	main@adresl+1
-   475     0579                     l1238:
+   475     0579                     l1235:
    476                           
-   477                           ;Lab2.c: 147:             res = adresh + adresl;
+   477                           ;Lab2.c: 145:             res = adresh + adresl;
    478     0579  0832               	movf	main@adresl,w
    479     057A  0734               	addwf	main@adresh,w
    480     057B  00B6               	movwf	main@res
@@ -497,26 +497,26 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    483     057E  0A33               	incf	main@adresl+1,w
    484     057F  0735               	addwf	main@adresh+1,w
    485     0580  00B7               	movwf	main@res+1
-   486     0581                     l1240:
+   486     0581                     l1237:
    487                           
-   488                           ;Lab2.c: 148:             res = res & masker;
+   488                           ;Lab2.c: 146:             res = res & masker;
    489     0581  30FF               	movlw	255
    490     0582  0536               	andwf	main@res,w
    491     0583  00B6               	movwf	main@res
    492     0584  3003               	movlw	3
    493     0585  0537               	andwf	main@res+1,w
    494     0586  00B7               	movwf	main@res+1
-   495     0587                     l1244:	
-   496                           ;Lab2.c: 149:             if('B' == 'A') {
+   495     0587                     l1241:	
+   496                           ;Lab2.c: 147:             if('B' == 'A')
    497                           
    498                           
-   499                           ;Lab2.c: 153:             {;Lab2.c: 154:                 displayHexNumber(res);
+   499                           ;Lab2.c: 150:                 displayHexNumber(res);
    500     0587  0837               	movf	main@res+1,w
    501     0588  00FA               	movwf	displayHexNumber@number+1
    502     0589  0836               	movf	main@res,w
    503     058A  00F9               	movwf	displayHexNumber@number
    504     058B  120A  118A  26B5  120A  118A  	fcall	_displayHexNumber
-   505     0590  2D4C               	goto	l1228
+   505     0590  2D4C               	goto	l1225
    506     0591  120A  118A  2800   	ljmp	start
    507     0594                     __end_of_main:
    508                           
@@ -524,7 +524,7 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    510     06B5                     __ptext1:	
    511 ;; *************** function _displayHexNumber *****************
    512 ;; Defined at:
-   513 ;;		line 106 in file "Lab2.c"
+   513 ;;		line 105 in file "Lab2.c"
    514 ;; Parameters:    Size  Location     Type
    515 ;;  number          2    9[COMMON] int 
    516 ;; Auto vars:     Size  Location     Type
@@ -560,7 +560,7 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    546     06B5                     _displayHexNumber:	
    547                           ;psect for function _displayHexNumber
    548                           
-   549     06B5                     l1182:	
+   549     06B5                     l1181:	
    550                           ;incstack = 0
    551                           ; Regs used in _displayHexNumber: [wreg-fsr0h+status,2+status,0+pclath+cstack]
    552                           
@@ -572,42 +572,42 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    558     06BA  01A3               	clrf	displayHexNumber@asarot+1
    559     06BB  01A4               	clrf	displayHexNumber@unit
    560     06BC  01A5               	clrf	displayHexNumber@unit+1
-   561     06BD                     l1184:
+   561     06BD                     l1183:
    562                           
-   563                           ;Lab2.c: 108:     unit = number%16;
+   563                           ;Lab2.c: 107:     unit = number%16;
    564     06BD  300F               	movlw	15
    565     06BE  0579               	andwf	displayHexNumber@number,w
    566     06BF  00A4               	movwf	displayHexNumber@unit
    567     06C0  3000               	movlw	0
    568     06C1  057A               	andwf	displayHexNumber@number+1,w
    569     06C2  00A5               	movwf	displayHexNumber@unit+1
-   570     06C3                     l1186:
+   570     06C3                     l1185:
    571                           
-   572                           ;Lab2.c: 109:     PORTB = 0x00;
+   572                           ;Lab2.c: 108:     PORTB = 0x00;
    573     06C3  0186               	clrf	6	;volatile
-   574     06C4                     l1188:
+   574     06C4                     l1187:
    575                           
-   576                           ;Lab2.c: 110:     PORTD = display7s(unit);
+   576                           ;Lab2.c: 109:     PORTD = display7s(unit);
    577     06C4  0824               	movf	displayHexNumber@unit,w
    578     06C5  120A  118A  25EF  120A  118A  	fcall	_display7s
    579     06CA  1283               	bcf	3,5	;RP0=0, select bank0
    580     06CB  1303               	bcf	3,6	;RP1=0, select bank0
    581     06CC  0088               	movwf	8	;volatile
-   582     06CD                     l1190:
+   582     06CD                     l1189:
    583                           
-   584                           ;Lab2.c: 111:     PORTBbits.RB4 = 1;
+   584                           ;Lab2.c: 110:     PORTBbits.RB4 = 1;
    585     06CD  1606               	bsf	6,4	;volatile
-   586     06CE                     l1192:
+   586     06CE                     l1191:
    587                           
-   588                           ;Lab2.c: 112:     delay_ms(3);
+   588                           ;Lab2.c: 111:     delay_ms(3);
    589     06CE  3003               	movlw	3
    590     06CF  00F0               	movwf	delay_ms@delayMs
    591     06D0  3000               	movlw	0
    592     06D1  00F1               	movwf	delay_ms@delayMs+1
    593     06D2  120A  118A  2526  120A  118A  	fcall	_delay_ms
-   594     06D7                     l1194:
+   594     06D7                     l1193:
    595                           
-   596                           ;Lab2.c: 113:     asarot = (number/16)%16;
+   596                           ;Lab2.c: 112:     asarot = (number/16)%16;
    597     06D7  3010               	movlw	16
    598     06D8  00F0               	movwf	___awdiv@divisor
    599     06D9  3000               	movlw	0
@@ -625,33 +625,33 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    611     06E9  3000               	movlw	0
    612     06EA  0571               	andwf	?___awdiv+1,w
    613     06EB  00A3               	movwf	displayHexNumber@asarot+1
-   614     06EC                     l1196:
+   614     06EC                     l1195:
    615                           
-   616                           ;Lab2.c: 114:     PORTB = 0x00;
+   616                           ;Lab2.c: 113:     PORTB = 0x00;
    617     06EC  0186               	clrf	6	;volatile
-   618     06ED                     l1198:
+   618     06ED                     l1197:
    619                           
-   620                           ;Lab2.c: 115:     PORTD = display7s(asarot);
+   620                           ;Lab2.c: 114:     PORTD = display7s(asarot);
    621     06ED  0822               	movf	displayHexNumber@asarot,w
    622     06EE  120A  118A  25EF  120A  118A  	fcall	_display7s
    623     06F3  1283               	bcf	3,5	;RP0=0, select bank0
    624     06F4  1303               	bcf	3,6	;RP1=0, select bank0
    625     06F5  0088               	movwf	8	;volatile
-   626     06F6                     l1200:
+   626     06F6                     l1199:
    627                           
-   628                           ;Lab2.c: 116:     PORTBbits.RB5 = 1;
+   628                           ;Lab2.c: 115:     PORTBbits.RB5 = 1;
    629     06F6  1686               	bsf	6,5	;volatile
-   630     06F7                     l1202:
+   630     06F7                     l1201:
    631                           
-   632                           ;Lab2.c: 117:     delay_ms(3);
+   632                           ;Lab2.c: 116:     delay_ms(3);
    633     06F7  3003               	movlw	3
    634     06F8  00F0               	movwf	delay_ms@delayMs
    635     06F9  3000               	movlw	0
    636     06FA  00F1               	movwf	delay_ms@delayMs+1
    637     06FB  120A  118A  2526  120A  118A  	fcall	_delay_ms
-   638     0700                     l1204:
+   638     0700                     l1203:
    639                           
-   640                           ;Lab2.c: 118:     meot = (number/256)%16;
+   640                           ;Lab2.c: 117:     meot = (number/256)%16;
    641     0700  3000               	movlw	0
    642     0701  00F0               	movwf	___awdiv@divisor
    643     0702  3001               	movlw	1
@@ -669,25 +669,25 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    655     0712  3000               	movlw	0
    656     0713  0571               	andwf	?___awdiv+1,w
    657     0714  00A1               	movwf	displayHexNumber@meot+1
-   658     0715                     l1206:
+   658     0715                     l1205:
    659                           
-   660                           ;Lab2.c: 119:     PORTB = 0x00;
+   660                           ;Lab2.c: 118:     PORTB = 0x00;
    661     0715  0186               	clrf	6	;volatile
-   662     0716                     l1208:
+   662     0716                     l1207:
    663                           
-   664                           ;Lab2.c: 120:     PORTD = display7s(meot);
+   664                           ;Lab2.c: 119:     PORTD = display7s(meot);
    665     0716  0820               	movf	displayHexNumber@meot,w
    666     0717  120A  118A  25EF  120A  118A  	fcall	_display7s
    667     071C  1283               	bcf	3,5	;RP0=0, select bank0
    668     071D  1303               	bcf	3,6	;RP1=0, select bank0
    669     071E  0088               	movwf	8	;volatile
-   670     071F                     l1210:
+   670     071F                     l1209:
    671                           
-   672                           ;Lab2.c: 121:     PORTBbits.RB6 = 1;
+   672                           ;Lab2.c: 120:     PORTBbits.RB6 = 1;
    673     071F  1706               	bsf	6,6	;volatile
-   674     0720                     l1212:
+   674     0720                     l1211:
    675                           
-   676                           ;Lab2.c: 122:     delay_ms(3);
+   676                           ;Lab2.c: 121:     delay_ms(3);
    677     0720  3003               	movlw	3
    678     0721  00F0               	movwf	delay_ms@delayMs
    679     0722  3000               	movlw	0
@@ -701,7 +701,7 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    687     072A                     __ptext2:	
    688 ;; *************** function _displayDecNumber *****************
    689 ;; Defined at:
-   690 ;;		line 82 in file "Lab2.c"
+   690 ;;		line 81 in file "Lab2.c"
    691 ;; Parameters:    Size  Location     Type
    692 ;;  number          2    2[BANK0 ] int 
    693 ;; Auto vars:     Size  Location     Type
@@ -738,7 +738,7 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    724     072A                     _displayDecNumber:	
    725                           ;psect for function _displayDecNumber
    726                           
-   727     072A                     l1140:	
+   727     072A                     l1139:	
    728                           ;incstack = 0
    729                           ; Regs used in _displayDecNumber: [wreg-fsr0h+status,2+status,0+pclath+cstack]
    730                           
@@ -750,9 +750,9 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    736     072F  01A9               	clrf	displayDecNumber@asarot+1
    737     0730  01AA               	clrf	displayDecNumber@unit
    738     0731  01AB               	clrf	displayDecNumber@unit+1
-   739     0732                     l1142:
+   739     0732                     l1141:
    740                           
-   741                           ;Lab2.c: 84:     unit = number%10;
+   741                           ;Lab2.c: 83:     unit = number%10;
    742     0732  300A               	movlw	10
    743     0733  00F9               	movwf	___awmod@divisor
    744     0734  3000               	movlw	0
@@ -768,33 +768,33 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    754     0742  00AB               	movwf	displayDecNumber@unit+1
    755     0743  0879               	movf	?___awmod,w
    756     0744  00AA               	movwf	displayDecNumber@unit
-   757     0745                     l1144:
+   757     0745                     l1143:
    758                           
-   759                           ;Lab2.c: 85:     PORTB = 0x00;
+   759                           ;Lab2.c: 84:     PORTB = 0x00;
    760     0745  0186               	clrf	6	;volatile
-   761     0746                     l1146:
+   761     0746                     l1145:
    762                           
-   763                           ;Lab2.c: 86:     PORTD = display7s(unit);
+   763                           ;Lab2.c: 85:     PORTD = display7s(unit);
    764     0746  082A               	movf	displayDecNumber@unit,w
    765     0747  120A  118A  25EF  120A  118A  	fcall	_display7s
    766     074C  1283               	bcf	3,5	;RP0=0, select bank0
    767     074D  1303               	bcf	3,6	;RP1=0, select bank0
    768     074E  0088               	movwf	8	;volatile
-   769     074F                     l1148:
+   769     074F                     l1147:
    770                           
-   771                           ;Lab2.c: 87:     PORTBbits.RB4 = 1;
+   771                           ;Lab2.c: 86:     PORTBbits.RB4 = 1;
    772     074F  1606               	bsf	6,4	;volatile
-   773     0750                     l1150:
+   773     0750                     l1149:
    774                           
-   775                           ;Lab2.c: 88:     delay_ms(3);
+   775                           ;Lab2.c: 87:     delay_ms(3);
    776     0750  3003               	movlw	3
    777     0751  00F0               	movwf	delay_ms@delayMs
    778     0752  3000               	movlw	0
    779     0753  00F1               	movwf	delay_ms@delayMs+1
    780     0754  120A  118A  2526  120A  118A  	fcall	_delay_ms
-   781     0759                     l1152:
+   781     0759                     l1151:
    782                           
-   783                           ;Lab2.c: 89:     asarot = (number/10)%10;
+   783                           ;Lab2.c: 88:     asarot = (number/10)%10;
    784     0759  300A               	movlw	10
    785     075A  00F9               	movwf	___awmod@divisor
    786     075B  3000               	movlw	0
@@ -821,33 +821,33 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    807     0778  00A9               	movwf	displayDecNumber@asarot+1
    808     0779  0879               	movf	?___awmod,w
    809     077A  00A8               	movwf	displayDecNumber@asarot
-   810     077B                     l1154:
+   810     077B                     l1153:
    811                           
-   812                           ;Lab2.c: 90:     PORTB = 0x00;
+   812                           ;Lab2.c: 89:     PORTB = 0x00;
    813     077B  0186               	clrf	6	;volatile
-   814     077C                     l1156:
+   814     077C                     l1155:
    815                           
-   816                           ;Lab2.c: 91:     PORTD = display7s(asarot);
+   816                           ;Lab2.c: 90:     PORTD = display7s(asarot);
    817     077C  0828               	movf	displayDecNumber@asarot,w
    818     077D  120A  118A  25EF  120A  118A  	fcall	_display7s
    819     0782  1283               	bcf	3,5	;RP0=0, select bank0
    820     0783  1303               	bcf	3,6	;RP1=0, select bank0
    821     0784  0088               	movwf	8	;volatile
-   822     0785                     l1158:
+   822     0785                     l1157:
    823                           
-   824                           ;Lab2.c: 92:     PORTBbits.RB5 = 1;
+   824                           ;Lab2.c: 91:     PORTBbits.RB5 = 1;
    825     0785  1686               	bsf	6,5	;volatile
-   826     0786                     l1160:
+   826     0786                     l1159:
    827                           
-   828                           ;Lab2.c: 93:     delay_ms(3);
+   828                           ;Lab2.c: 92:     delay_ms(3);
    829     0786  3003               	movlw	3
    830     0787  00F0               	movwf	delay_ms@delayMs
    831     0788  3000               	movlw	0
    832     0789  00F1               	movwf	delay_ms@delayMs+1
    833     078A  120A  118A  2526  120A  118A  	fcall	_delay_ms
-   834     078F                     l1162:
+   834     078F                     l1161:
    835                           
-   836                           ;Lab2.c: 94:     meot = (number/100)%10;
+   836                           ;Lab2.c: 93:     meot = (number/100)%10;
    837     078F  300A               	movlw	10
    838     0790  00F9               	movwf	___awmod@divisor
    839     0791  3000               	movlw	0
@@ -874,33 +874,33 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    860     07AE  00A7               	movwf	displayDecNumber@meot+1
    861     07AF  0879               	movf	?___awmod,w
    862     07B0  00A6               	movwf	displayDecNumber@meot
-   863     07B1                     l1164:
+   863     07B1                     l1163:
    864                           
-   865                           ;Lab2.c: 95:     PORTB = 0x00;
+   865                           ;Lab2.c: 94:     PORTB = 0x00;
    866     07B1  0186               	clrf	6	;volatile
-   867     07B2                     l1166:
+   867     07B2                     l1165:
    868                           
-   869                           ;Lab2.c: 96:     PORTD = display7s(meot);
+   869                           ;Lab2.c: 95:     PORTD = display7s(meot);
    870     07B2  0826               	movf	displayDecNumber@meot,w
    871     07B3  120A  118A  25EF  120A  118A  	fcall	_display7s
    872     07B8  1283               	bcf	3,5	;RP0=0, select bank0
    873     07B9  1303               	bcf	3,6	;RP1=0, select bank0
    874     07BA  0088               	movwf	8	;volatile
-   875     07BB                     l1168:
+   875     07BB                     l1167:
    876                           
-   877                           ;Lab2.c: 97:     PORTBbits.RB6 = 1;
+   877                           ;Lab2.c: 96:     PORTBbits.RB6 = 1;
    878     07BB  1706               	bsf	6,6	;volatile
-   879     07BC                     l1170:
+   879     07BC                     l1169:
    880                           
-   881                           ;Lab2.c: 98:     delay_ms(3);
+   881                           ;Lab2.c: 97:     delay_ms(3);
    882     07BC  3003               	movlw	3
    883     07BD  00F0               	movwf	delay_ms@delayMs
    884     07BE  3000               	movlw	0
    885     07BF  00F1               	movwf	delay_ms@delayMs+1
    886     07C0  120A  118A  2526  120A  118A  	fcall	_delay_ms
-   887     07C5                     l1172:
+   887     07C5                     l1171:
    888                           
-   889                           ;Lab2.c: 99:     alafim = (number/1000)%10;
+   889                           ;Lab2.c: 98:     alafim = (number/1000)%10;
    890     07C5  300A               	movlw	10
    891     07C6  00F9               	movwf	___awmod@divisor
    892     07C7  3000               	movlw	0
@@ -927,25 +927,25 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    913     07E4  00A5               	movwf	displayDecNumber@alafim+1
    914     07E5  0879               	movf	?___awmod,w
    915     07E6  00A4               	movwf	displayDecNumber@alafim
-   916     07E7                     l1174:
+   916     07E7                     l1173:
    917                           
-   918                           ;Lab2.c: 100:     PORTB = 0x00;
+   918                           ;Lab2.c: 99:     PORTB = 0x00;
    919     07E7  0186               	clrf	6	;volatile
-   920     07E8                     l1176:
+   920     07E8                     l1175:
    921                           
-   922                           ;Lab2.c: 101:     PORTD = display7s(alafim);
+   922                           ;Lab2.c: 100:     PORTD = display7s(alafim);
    923     07E8  0824               	movf	displayDecNumber@alafim,w
    924     07E9  120A  118A  25EF  120A  118A  	fcall	_display7s
    925     07EE  1283               	bcf	3,5	;RP0=0, select bank0
    926     07EF  1303               	bcf	3,6	;RP1=0, select bank0
    927     07F0  0088               	movwf	8	;volatile
-   928     07F1                     l1178:
+   928     07F1                     l1177:
    929                           
-   930                           ;Lab2.c: 102:     PORTBbits.RB7 = 1;
+   930                           ;Lab2.c: 101:     PORTBbits.RB7 = 1;
    931     07F1  1786               	bsf	6,7	;volatile
-   932     07F2                     l1180:
+   932     07F2                     l1179:
    933                           
-   934                           ;Lab2.c: 103:     delay_ms(3);
+   934                           ;Lab2.c: 102:     delay_ms(3);
    935     07F2  3003               	movlw	3
    936     07F3  00F0               	movwf	delay_ms@delayMs
    937     07F4  3000               	movlw	0
@@ -959,7 +959,7 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    945     05EF                     __ptext3:	
    946 ;; *************** function _display7s *****************
    947 ;; Defined at:
-   948 ;;		line 40 in file "Lab2.c"
+   948 ;;		line 39 in file "Lab2.c"
    949 ;; Parameters:    Size  Location     Type
    950 ;;  digit           1    wreg     unsigned char 
    951 ;; Auto vars:     Size  Location     Type
@@ -995,97 +995,97 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
    981                           ; Regs used in _display7s: [wreg-fsr0h+status,2+status,0]
    982                           ;display7s@digit stored from wreg
    983     05EF  00F2               	movwf	display7s@digit
-   984     05F0                     l980:
+   984     05F0                     l979:
    985                           
-   986                           ;Lab2.c: 40: unsigned char display7s(unsigned char digit);Lab2.c: 41: {;Lab2.c: 42:   sw
+   986                           ;Lab2.c: 39: unsigned char display7s(unsigned char digit);Lab2.c: 40: {;Lab2.c: 41:   sw
       +                          itch(digit)
-   987     05F0  2E13               	goto	l1052
-   988     05F1                     l982:
+   987     05F0  2E13               	goto	l1051
+   988     05F1                     l981:
    989                           
-   990                           ;Lab2.c: 45:       return 0x3F;
+   990                           ;Lab2.c: 44:       return 0x3F;
    991     05F1  303F               	movlw	63
    992     05F2  2E4D               	goto	l35
-   993     05F3                     l986:
+   993     05F3                     l985:
    994                           
-   995                           ;Lab2.c: 47:       return 0x06;
+   995                           ;Lab2.c: 46:       return 0x06;
    996     05F3  3006               	movlw	6
    997     05F4  2E4D               	goto	l35
-   998     05F5                     l990:
+   998     05F5                     l989:
    999                           
-  1000                           ;Lab2.c: 49:       return 0x5B;
+  1000                           ;Lab2.c: 48:       return 0x5B;
   1001     05F5  305B               	movlw	91
   1002     05F6  2E4D               	goto	l35
-  1003     05F7                     l994:
+  1003     05F7                     l993:
   1004                           
-  1005                           ;Lab2.c: 51:       return 0x4F;
+  1005                           ;Lab2.c: 50:       return 0x4F;
   1006     05F7  304F               	movlw	79
   1007     05F8  2E4D               	goto	l35
-  1008     05F9                     l998:
+  1008     05F9                     l997:
   1009                           
-  1010                           ;Lab2.c: 53:       return 0x66;
+  1010                           ;Lab2.c: 52:       return 0x66;
   1011     05F9  3066               	movlw	102
   1012     05FA  2E4D               	goto	l35
-  1013     05FB                     l1002:
+  1013     05FB                     l1001:
   1014                           
-  1015                           ;Lab2.c: 55:       return 0x6D;
+  1015                           ;Lab2.c: 54:       return 0x6D;
   1016     05FB  306D               	movlw	109
   1017     05FC  2E4D               	goto	l35
-  1018     05FD                     l1006:
+  1018     05FD                     l1005:
   1019                           
-  1020                           ;Lab2.c: 57:       return 0x7D;
+  1020                           ;Lab2.c: 56:       return 0x7D;
   1021     05FD  307D               	movlw	125
   1022     05FE  2E4D               	goto	l35
-  1023     05FF                     l1010:
+  1023     05FF                     l1009:
   1024                           
-  1025                           ;Lab2.c: 59:       return 0x07;
+  1025                           ;Lab2.c: 58:       return 0x07;
   1026     05FF  3007               	movlw	7
   1027     0600  2E4D               	goto	l35
-  1028     0601                     l1014:
+  1028     0601                     l1013:
   1029                           
-  1030                           ;Lab2.c: 61:       return 0x7F;
+  1030                           ;Lab2.c: 60:       return 0x7F;
   1031     0601  307F               	movlw	127
   1032     0602  2E4D               	goto	l35
-  1033     0603                     l1018:
+  1033     0603                     l1017:
   1034                           
-  1035                           ;Lab2.c: 63:       return 0x6F;
+  1035                           ;Lab2.c: 62:       return 0x6F;
   1036     0603  306F               	movlw	111
   1037     0604  2E4D               	goto	l35
-  1038     0605                     l1022:
+  1038     0605                     l1021:
   1039                           
-  1040                           ;Lab2.c: 65:       return 0x77;
+  1040                           ;Lab2.c: 64:       return 0x77;
   1041     0605  3077               	movlw	119
   1042     0606  2E4D               	goto	l35
-  1043     0607                     l1026:
+  1043     0607                     l1025:
   1044                           
-  1045                           ;Lab2.c: 67:       return 0x7c;
+  1045                           ;Lab2.c: 66:       return 0x7c;
   1046     0607  307C               	movlw	124
   1047     0608  2E4D               	goto	l35
-  1048     0609                     l1030:
+  1048     0609                     l1029:
   1049                           
-  1050                           ;Lab2.c: 69:       return 0x58;
+  1050                           ;Lab2.c: 68:       return 0x58;
   1051     0609  3058               	movlw	88
   1052     060A  2E4D               	goto	l35
-  1053     060B                     l1034:
+  1053     060B                     l1033:
   1054                           
-  1055                           ;Lab2.c: 71:       return 0x5E;
+  1055                           ;Lab2.c: 70:       return 0x5E;
   1056     060B  305E               	movlw	94
   1057     060C  2E4D               	goto	l35
-  1058     060D                     l1038:
+  1058     060D                     l1037:
   1059                           
-  1060                           ;Lab2.c: 73:       return 0x79;
+  1060                           ;Lab2.c: 72:       return 0x79;
   1061     060D  3079               	movlw	121
   1062     060E  2E4D               	goto	l35
-  1063     060F                     l1042:
+  1063     060F                     l1041:
   1064                           
-  1065                           ;Lab2.c: 75:       return 0x71;
+  1065                           ;Lab2.c: 74:       return 0x71;
   1066     060F  3071               	movlw	113
   1067     0610  2E4D               	goto	l35
-  1068     0611                     l1046:
+  1068     0611                     l1045:
   1069                           
-  1070                           ;Lab2.c: 77:       return 0;
+  1070                           ;Lab2.c: 76:       return 0;
   1071     0611  3000               	movlw	0
   1072     0612  2E4D               	goto	l35
-  1073     0613                     l1052:
+  1073     0613                     l1051:
   1074     0613  0872               	movf	display7s@digit,w
   1075     0614  00F0               	movwf	??_display7s
   1076     0615  01F1               	clrf	??_display7s+1
@@ -1103,9 +1103,9 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1087     0616  0871               	movf	??_display7s+1,w
   1088     0617  3A00               	xorlw	0	; case 0
   1089     0618  1903               	skipnz
-  1090     0619  2E1B               	goto	l1266
-  1091     061A  2E11               	goto	l1046
-  1092     061B                     l1266:
+  1090     0619  2E1B               	goto	l1263
+  1091     061A  2E11               	goto	l1045
+  1092     061B                     l1263:
   1093                           
   1094                           ; Switch size 1, requested type "simple"
   1095                           ; Number of cases is 16, Range of values is 0 to 15
@@ -1118,53 +1118,53 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1102     061B  0870               	movf	??_display7s,w
   1103     061C  3A00               	xorlw	0	; case 0
   1104     061D  1903               	skipnz
-  1105     061E  2DF1               	goto	l982
+  1105     061E  2DF1               	goto	l981
   1106     061F  3A01               	xorlw	1	; case 1
   1107     0620  1903               	skipnz
-  1108     0621  2DF3               	goto	l986
+  1108     0621  2DF3               	goto	l985
   1109     0622  3A03               	xorlw	3	; case 2
   1110     0623  1903               	skipnz
-  1111     0624  2DF5               	goto	l990
+  1111     0624  2DF5               	goto	l989
   1112     0625  3A01               	xorlw	1	; case 3
   1113     0626  1903               	skipnz
-  1114     0627  2DF7               	goto	l994
+  1114     0627  2DF7               	goto	l993
   1115     0628  3A07               	xorlw	7	; case 4
   1116     0629  1903               	skipnz
-  1117     062A  2DF9               	goto	l998
+  1117     062A  2DF9               	goto	l997
   1118     062B  3A01               	xorlw	1	; case 5
   1119     062C  1903               	skipnz
-  1120     062D  2DFB               	goto	l1002
+  1120     062D  2DFB               	goto	l1001
   1121     062E  3A03               	xorlw	3	; case 6
   1122     062F  1903               	skipnz
-  1123     0630  2DFD               	goto	l1006
+  1123     0630  2DFD               	goto	l1005
   1124     0631  3A01               	xorlw	1	; case 7
   1125     0632  1903               	skipnz
-  1126     0633  2DFF               	goto	l1010
+  1126     0633  2DFF               	goto	l1009
   1127     0634  3A0F               	xorlw	15	; case 8
   1128     0635  1903               	skipnz
-  1129     0636  2E01               	goto	l1014
+  1129     0636  2E01               	goto	l1013
   1130     0637  3A01               	xorlw	1	; case 9
   1131     0638  1903               	skipnz
-  1132     0639  2E03               	goto	l1018
+  1132     0639  2E03               	goto	l1017
   1133     063A  3A03               	xorlw	3	; case 10
   1134     063B  1903               	skipnz
-  1135     063C  2E05               	goto	l1022
+  1135     063C  2E05               	goto	l1021
   1136     063D  3A01               	xorlw	1	; case 11
   1137     063E  1903               	skipnz
-  1138     063F  2E07               	goto	l1026
+  1138     063F  2E07               	goto	l1025
   1139     0640  3A07               	xorlw	7	; case 12
   1140     0641  1903               	skipnz
-  1141     0642  2E09               	goto	l1030
+  1141     0642  2E09               	goto	l1029
   1142     0643  3A01               	xorlw	1	; case 13
   1143     0644  1903               	skipnz
-  1144     0645  2E0B               	goto	l1034
+  1144     0645  2E0B               	goto	l1033
   1145     0646  3A03               	xorlw	3	; case 14
   1146     0647  1903               	skipnz
-  1147     0648  2E0D               	goto	l1038
+  1147     0648  2E0D               	goto	l1037
   1148     0649  3A01               	xorlw	1	; case 15
   1149     064A  1903               	skipnz
-  1150     064B  2E0F               	goto	l1042
-  1151     064C  2E11               	goto	l1046
+  1150     064B  2E0F               	goto	l1041
+  1151     064C  2E11               	goto	l1045
   1152     064D                     l35:
   1153     064D  0008               	return
   1154     064E                     __end_of_display7s:
@@ -1173,7 +1173,7 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1157     0526                     __ptext4:	
   1158 ;; *************** function _delay_ms *****************
   1159 ;; Defined at:
-  1160 ;;		line 22 in file "Lab2.c"
+  1160 ;;		line 21 in file "Lab2.c"
   1161 ;; Parameters:    Size  Location     Type
   1162 ;;  delayMs         2    0[COMMON] unsigned int 
   1163 ;; Auto vars:     Size  Location     Type
@@ -1205,31 +1205,31 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1189     0526                     _delay_ms:	
   1190                           ;psect for function _delay_ms
   1191                           
-  1192     0526                     l966:	
+  1192     0526                     l965:	
   1193                           ;incstack = 0
   1194                           ; Regs used in _delay_ms: [wreg+status,2+status,0]
   1195                           
   1196                           
-  1197                           ;Lab2.c: 22: void delay_ms(unsigned int delayMs);Lab2.c: 23: {;Lab2.c: 24: unsigned int 
-      +                          i;;Lab2.c: 25: unsigned char j;;Lab2.c: 27:  for (i =0; i< delayMs; i++)
+  1197                           ;Lab2.c: 21: void delay_ms(unsigned int delayMs);Lab2.c: 22: {;Lab2.c: 23: unsigned int 
+      +                          i;;Lab2.c: 24: unsigned char j;;Lab2.c: 26:  for (i =0; i< delayMs; i++)
   1198     0526  01F3               	clrf	delay_ms@i
   1199     0527  01F4               	clrf	delay_ms@i+1
   1200     0528  2D3C               	goto	l25
-  1201     0529                     l968:
+  1201     0529                     l967:
   1202                           
-  1203                           ;Lab2.c: 28:  {;Lab2.c: 29:   for (j =0 ; j < 200; j++)
+  1203                           ;Lab2.c: 27:  {;Lab2.c: 28:   for (j =0 ; j < 200; j++)
   1204     0529  01F5               	clrf	delay_ms@j
   1205     052A                     l27:
   1206     052A  0000               	nop	;# 
   1207     052B  0000               	nop	;# 
-  1208     052C                     l974:
+  1208     052C                     l973:
   1209                           
-  1210                           ;Lab2.c: 33:     }
+  1210                           ;Lab2.c: 32:     }
   1211     052C  3001               	movlw	1
   1212     052D  00F2               	movwf	??_delay_ms
   1213     052E  0872               	movf	??_delay_ms,w
   1214     052F  07F5               	addwf	delay_ms@j,f
-  1215     0530                     l976:
+  1215     0530                     l975:
   1216     0530  30C8               	movlw	200
   1217     0531  0275               	subwf	delay_ms@j,w
   1218     0532  1C03               	skipc
@@ -1238,9 +1238,9 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1221     0535                     u231:
   1222     0535  2D2A               	goto	l27
   1223     0536                     u230:
-  1224     0536                     l978:
+  1224     0536                     l977:
   1225                           
-  1226                           ;Lab2.c: 34:  }
+  1226                           ;Lab2.c: 33:  }
   1227     0536  3001               	movlw	1
   1228     0537  07F3               	addwf	delay_ms@i,f
   1229     0538  1803               	skipnc
@@ -1259,7 +1259,7 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1242     0543  2D45               	goto	u241
   1243     0544  2D46               	goto	u240
   1244     0545                     u241:
-  1245     0545  2D29               	goto	l968
+  1245     0545  2D29               	goto	l967
   1246     0546                     u240:
   1247     0546                     l30:
   1248     0546  0008               	return
@@ -1301,56 +1301,56 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1284     0594                     ___awmod:	
   1285                           ;psect for function ___awmod
   1286                           
-  1287     0594                     l1102:	
+  1287     0594                     l1101:	
   1288                           ;incstack = 0
   1289                           ; Regs used in ___awmod: [wreg+status,2+status,0]
   1290                           
   1291     0594  1283               	bcf	3,5	;RP0=0, select bank0
   1292     0595  1303               	bcf	3,6	;RP1=0, select bank0
   1293     0596  01A1               	clrf	___awmod@sign
-  1294     0597                     l1104:
+  1294     0597                     l1103:
   1295     0597  1FFC               	btfss	___awmod@dividend+1,7
   1296     0598  2D9A               	goto	u351
   1297     0599  2D9B               	goto	u350
   1298     059A                     u351:
-  1299     059A  2DA2               	goto	l1110
+  1299     059A  2DA2               	goto	l1109
   1300     059B                     u350:
-  1301     059B                     l1106:
+  1301     059B                     l1105:
   1302     059B  09FB               	comf	___awmod@dividend,f
   1303     059C  09FC               	comf	___awmod@dividend+1,f
   1304     059D  0AFB               	incf	___awmod@dividend,f
   1305     059E  1903               	skipnz
   1306     059F  0AFC               	incf	___awmod@dividend+1,f
-  1307     05A0                     l1108:
+  1307     05A0                     l1107:
   1308     05A0  01A1               	clrf	___awmod@sign
   1309     05A1  0AA1               	incf	___awmod@sign,f
-  1310     05A2                     l1110:
+  1310     05A2                     l1109:
   1311     05A2  1FFA               	btfss	___awmod@divisor+1,7
   1312     05A3  2DA5               	goto	u361
   1313     05A4  2DA6               	goto	u360
   1314     05A5                     u361:
-  1315     05A5  2DAB               	goto	l1114
+  1315     05A5  2DAB               	goto	l1113
   1316     05A6                     u360:
-  1317     05A6                     l1112:
+  1317     05A6                     l1111:
   1318     05A6  09F9               	comf	___awmod@divisor,f
   1319     05A7  09FA               	comf	___awmod@divisor+1,f
   1320     05A8  0AF9               	incf	___awmod@divisor,f
   1321     05A9  1903               	skipnz
   1322     05AA  0AFA               	incf	___awmod@divisor+1,f
-  1323     05AB                     l1114:
+  1323     05AB                     l1113:
   1324     05AB  0879               	movf	___awmod@divisor,w
   1325     05AC  047A               	iorwf	___awmod@divisor+1,w
   1326     05AD  1903               	btfsc	3,2
   1327     05AE  2DB0               	goto	u371
   1328     05AF  2DB1               	goto	u370
   1329     05B0                     u371:
-  1330     05B0  2DE0               	goto	l1132
+  1330     05B0  2DE0               	goto	l1131
   1331     05B1                     u370:
-  1332     05B1                     l1116:
+  1332     05B1                     l1115:
   1333     05B1  01A0               	clrf	___awmod@counter
   1334     05B2  0AA0               	incf	___awmod@counter,f
-  1335     05B3  2DBF               	goto	l1122
-  1336     05B4                     l1118:
+  1335     05B3  2DBF               	goto	l1121
+  1336     05B4                     l1117:
   1337     05B4  3001               	movlw	1
   1338     05B5                     u385:
   1339     05B5  1003               	clrc
@@ -1359,19 +1359,19 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1342     05B8  3EFF               	addlw	-1
   1343     05B9  1D03               	skipz
   1344     05BA  2DB5               	goto	u385
-  1345     05BB                     l1120:
+  1345     05BB                     l1119:
   1346     05BB  3001               	movlw	1
   1347     05BC  00FD               	movwf	??___awmod
   1348     05BD  087D               	movf	??___awmod,w
   1349     05BE  07A0               	addwf	___awmod@counter,f
-  1350     05BF                     l1122:
+  1350     05BF                     l1121:
   1351     05BF  1FFA               	btfss	___awmod@divisor+1,7
   1352     05C0  2DC2               	goto	u391
   1353     05C1  2DC3               	goto	u390
   1354     05C2                     u391:
-  1355     05C2  2DB4               	goto	l1118
+  1355     05C2  2DB4               	goto	l1117
   1356     05C3                     u390:
-  1357     05C3                     l1124:
+  1357     05C3                     l1123:
   1358     05C3  087A               	movf	___awmod@divisor+1,w
   1359     05C4  027C               	subwf	___awmod@dividend+1,w
   1360     05C5  1D03               	skipz
@@ -1383,16 +1383,16 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1366     05CA  2DCC               	goto	u401
   1367     05CB  2DCD               	goto	u400
   1368     05CC                     u401:
-  1369     05CC  2DD3               	goto	l1128
+  1369     05CC  2DD3               	goto	l1127
   1370     05CD                     u400:
-  1371     05CD                     l1126:
+  1371     05CD                     l1125:
   1372     05CD  0879               	movf	___awmod@divisor,w
   1373     05CE  02FB               	subwf	___awmod@dividend,f
   1374     05CF  087A               	movf	___awmod@divisor+1,w
   1375     05D0  1C03               	skipc
   1376     05D1  03FC               	decf	___awmod@dividend+1,f
   1377     05D2  02FC               	subwf	___awmod@dividend+1,f
-  1378     05D3                     l1128:
+  1378     05D3                     l1127:
   1379     05D3  3001               	movlw	1
   1380     05D4                     u415:
   1381     05D4  1003               	clrc
@@ -1401,35 +1401,35 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1384     05D7  3EFF               	addlw	-1
   1385     05D8  1D03               	skipz
   1386     05D9  2DD4               	goto	u415
-  1387     05DA                     l1130:
+  1387     05DA                     l1129:
   1388     05DA  3001               	movlw	1
   1389     05DB  02A0               	subwf	___awmod@counter,f
   1390     05DC  1D03               	btfss	3,2
   1391     05DD  2DDF               	goto	u421
   1392     05DE  2DE0               	goto	u420
   1393     05DF                     u421:
-  1394     05DF  2DC3               	goto	l1124
+  1394     05DF  2DC3               	goto	l1123
   1395     05E0                     u420:
-  1396     05E0                     l1132:
+  1396     05E0                     l1131:
   1397     05E0  0821               	movf	___awmod@sign,w
   1398     05E1  1903               	btfsc	3,2
   1399     05E2  2DE4               	goto	u431
   1400     05E3  2DE5               	goto	u430
   1401     05E4                     u431:
-  1402     05E4  2DEA               	goto	l1136
+  1402     05E4  2DEA               	goto	l1135
   1403     05E5                     u430:
-  1404     05E5                     l1134:
+  1404     05E5                     l1133:
   1405     05E5  09FB               	comf	___awmod@dividend,f
   1406     05E6  09FC               	comf	___awmod@dividend+1,f
   1407     05E7  0AFB               	incf	___awmod@dividend,f
   1408     05E8  1903               	skipnz
   1409     05E9  0AFC               	incf	___awmod@dividend+1,f
-  1410     05EA                     l1136:
+  1410     05EA                     l1135:
   1411     05EA  087C               	movf	___awmod@dividend+1,w
   1412     05EB  00FA               	movwf	?___awmod+1
   1413     05EC  087B               	movf	___awmod@dividend,w
   1414     05ED  00F9               	movwf	?___awmod
-  1415     05EE                     l326:
+  1415     05EE                     l327:
   1416     05EE  0008               	return
   1417     05EF                     __end_of___awmod:
   1418                           
@@ -1471,62 +1471,62 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1454     064E                     ___awdiv:	
   1455                           ;psect for function ___awdiv
   1456                           
-  1457     064E                     l1058:	
+  1457     064E                     l1057:	
   1458                           ;incstack = 0
   1459                           ; Regs used in ___awdiv: [wreg+status,2+status,0]
   1460                           
   1461     064E  01F6               	clrf	___awdiv@sign
-  1462     064F                     l1060:
+  1462     064F                     l1059:
   1463     064F  1FF1               	btfss	___awdiv@divisor+1,7
   1464     0650  2E52               	goto	u251
   1465     0651  2E53               	goto	u250
   1466     0652                     u251:
-  1467     0652  2E5A               	goto	l1066
+  1467     0652  2E5A               	goto	l1065
   1468     0653                     u250:
-  1469     0653                     l1062:
+  1469     0653                     l1061:
   1470     0653  09F0               	comf	___awdiv@divisor,f
   1471     0654  09F1               	comf	___awdiv@divisor+1,f
   1472     0655  0AF0               	incf	___awdiv@divisor,f
   1473     0656  1903               	skipnz
   1474     0657  0AF1               	incf	___awdiv@divisor+1,f
-  1475     0658                     l1064:
+  1475     0658                     l1063:
   1476     0658  01F6               	clrf	___awdiv@sign
   1477     0659  0AF6               	incf	___awdiv@sign,f
-  1478     065A                     l1066:
+  1478     065A                     l1065:
   1479     065A  1FF3               	btfss	___awdiv@dividend+1,7
   1480     065B  2E5D               	goto	u261
   1481     065C  2E5E               	goto	u260
   1482     065D                     u261:
-  1483     065D  2E67               	goto	l1072
+  1483     065D  2E67               	goto	l1071
   1484     065E                     u260:
-  1485     065E                     l1068:
+  1485     065E                     l1067:
   1486     065E  09F2               	comf	___awdiv@dividend,f
   1487     065F  09F3               	comf	___awdiv@dividend+1,f
   1488     0660  0AF2               	incf	___awdiv@dividend,f
   1489     0661  1903               	skipnz
   1490     0662  0AF3               	incf	___awdiv@dividend+1,f
-  1491     0663                     l1070:
+  1491     0663                     l1069:
   1492     0663  3001               	movlw	1
   1493     0664  00F4               	movwf	??___awdiv
   1494     0665  0874               	movf	??___awdiv,w
   1495     0666  06F6               	xorwf	___awdiv@sign,f
-  1496     0667                     l1072:
+  1496     0667                     l1071:
   1497     0667  01F7               	clrf	___awdiv@quotient
   1498     0668  01F8               	clrf	___awdiv@quotient+1
-  1499     0669                     l1074:
+  1499     0669                     l1073:
   1500     0669  0870               	movf	___awdiv@divisor,w
   1501     066A  0471               	iorwf	___awdiv@divisor+1,w
   1502     066B  1903               	btfsc	3,2
   1503     066C  2E6E               	goto	u271
   1504     066D  2E6F               	goto	u270
   1505     066E                     u271:
-  1506     066E  2EA6               	goto	l1094
+  1506     066E  2EA6               	goto	l1093
   1507     066F                     u270:
-  1508     066F                     l1076:
+  1508     066F                     l1075:
   1509     066F  01F5               	clrf	___awdiv@counter
   1510     0670  0AF5               	incf	___awdiv@counter,f
-  1511     0671  2E7D               	goto	l1082
-  1512     0672                     l1078:
+  1511     0671  2E7D               	goto	l1081
+  1512     0672                     l1077:
   1513     0672  3001               	movlw	1
   1514     0673                     u285:
   1515     0673  1003               	clrc
@@ -1535,19 +1535,19 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1518     0676  3EFF               	addlw	-1
   1519     0677  1D03               	skipz
   1520     0678  2E73               	goto	u285
-  1521     0679                     l1080:
+  1521     0679                     l1079:
   1522     0679  3001               	movlw	1
   1523     067A  00F4               	movwf	??___awdiv
   1524     067B  0874               	movf	??___awdiv,w
   1525     067C  07F5               	addwf	___awdiv@counter,f
-  1526     067D                     l1082:
+  1526     067D                     l1081:
   1527     067D  1FF1               	btfss	___awdiv@divisor+1,7
   1528     067E  2E80               	goto	u291
   1529     067F  2E81               	goto	u290
   1530     0680                     u291:
-  1531     0680  2E72               	goto	l1078
+  1531     0680  2E72               	goto	l1077
   1532     0681                     u290:
-  1533     0681                     l1084:
+  1533     0681                     l1083:
   1534     0681  3001               	movlw	1
   1535     0682                     u305:
   1536     0682  1003               	clrc
@@ -1567,18 +1567,18 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1550     068F  2E91               	goto	u311
   1551     0690  2E92               	goto	u310
   1552     0691                     u311:
-  1553     0691  2E99               	goto	l1090
+  1553     0691  2E99               	goto	l1089
   1554     0692                     u310:
-  1555     0692                     l1086:
+  1555     0692                     l1085:
   1556     0692  0870               	movf	___awdiv@divisor,w
   1557     0693  02F2               	subwf	___awdiv@dividend,f
   1558     0694  0871               	movf	___awdiv@divisor+1,w
   1559     0695  1C03               	skipc
   1560     0696  03F3               	decf	___awdiv@dividend+1,f
   1561     0697  02F3               	subwf	___awdiv@dividend+1,f
-  1562     0698                     l1088:
+  1562     0698                     l1087:
   1563     0698  1477               	bsf	___awdiv@quotient,0
-  1564     0699                     l1090:
+  1564     0699                     l1089:
   1565     0699  3001               	movlw	1
   1566     069A                     u325:
   1567     069A  1003               	clrc
@@ -1587,43 +1587,43 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1570     069D  3EFF               	addlw	-1
   1571     069E  1D03               	skipz
   1572     069F  2E9A               	goto	u325
-  1573     06A0                     l1092:
+  1573     06A0                     l1091:
   1574     06A0  3001               	movlw	1
   1575     06A1  02F5               	subwf	___awdiv@counter,f
   1576     06A2  1D03               	btfss	3,2
   1577     06A3  2EA5               	goto	u331
   1578     06A4  2EA6               	goto	u330
   1579     06A5                     u331:
-  1580     06A5  2E81               	goto	l1084
+  1580     06A5  2E81               	goto	l1083
   1581     06A6                     u330:
-  1582     06A6                     l1094:
+  1582     06A6                     l1093:
   1583     06A6  0876               	movf	___awdiv@sign,w
   1584     06A7  1903               	btfsc	3,2
   1585     06A8  2EAA               	goto	u341
   1586     06A9  2EAB               	goto	u340
   1587     06AA                     u341:
-  1588     06AA  2EB0               	goto	l1098
+  1588     06AA  2EB0               	goto	l1097
   1589     06AB                     u340:
-  1590     06AB                     l1096:
+  1590     06AB                     l1095:
   1591     06AB  09F7               	comf	___awdiv@quotient,f
   1592     06AC  09F8               	comf	___awdiv@quotient+1,f
   1593     06AD  0AF7               	incf	___awdiv@quotient,f
   1594     06AE  1903               	skipnz
   1595     06AF  0AF8               	incf	___awdiv@quotient+1,f
-  1596     06B0                     l1098:
+  1596     06B0                     l1097:
   1597     06B0  0878               	movf	___awdiv@quotient+1,w
   1598     06B1  00F1               	movwf	?___awdiv+1
   1599     06B2  0877               	movf	___awdiv@quotient,w
   1600     06B3  00F0               	movwf	?___awdiv
-  1601     06B4                     l313:
+  1601     06B4                     l314:
   1602     06B4  0008               	return
   1603     06B5                     __end_of___awdiv:
   1604                           
   1605                           	psect	text7
-  1606     0515                     __ptext7:	
+  1606     051A                     __ptext7:	
   1607 ;; *************** function _Init *****************
   1608 ;; Defined at:
-  1609 ;;		line 126 in file "Lab2.c"
+  1609 ;;		line 125 in file "Lab2.c"
   1610 ;; Parameters:    Size  Location     Type
   1611 ;;		None
   1612 ;; Auto vars:     Size  Location     Type
@@ -1650,96 +1650,88 @@ Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1
   1633 ;; This function uses a non-reentrant model
   1634 ;;
   1635                           
-  1636     0515                     _Init:	
+  1636     051A                     _Init:	
   1637                           ;psect for function _Init
   1638                           
-  1639     0515                     l1214:	
+  1639     051A                     l1213:	
   1640                           ;incstack = 0
   1641                           ; Regs used in _Init: [wreg+status,2]
   1642                           
   1643                           
-  1644                           ;Lab2.c: 127:     ADCON0 = 13;
-  1645     0515  300D               	movlw	13
-  1646     0516  1283               	bcf	3,5	;RP0=0, select bank0
-  1647     0517  1303               	bcf	3,6	;RP1=0, select bank0
-  1648     0518  009F               	movwf	31	;volatile
-  1649     0519                     l1216:
+  1644                           ;Lab2.c: 126:     ADCON0 = 13;
+  1645     051A  300D               	movlw	13
+  1646     051B  1283               	bcf	3,5	;RP0=0, select bank0
+  1647     051C  1303               	bcf	3,6	;RP1=0, select bank0
+  1648     051D  009F               	movwf	31	;volatile
+  1649     051E                     l1215:
   1650                           
-  1651                           ;Lab2.c: 128:     ADCON1bits.ADFM = 1;
-  1652     0519  1683               	bsf	3,5	;RP0=1, select bank1
-  1653     051A  1303               	bcf	3,6	;RP1=0, select bank1
-  1654     051B  179F               	bsf	31,7	;volatile
-  1655     051C                     l1218:
-  1656                           
-  1657                           ;Lab2.c: 129:     ADCON0bits.ADON = 1;
-  1658     051C  1283               	bcf	3,5	;RP0=0, select bank0
-  1659     051D  1303               	bcf	3,6	;RP1=0, select bank0
-  1660     051E  141F               	bsf	31,0	;volatile
-  1661                           
-  1662                           ;Lab2.c: 130:     TRISA = 0xFF;
-  1663     051F  30FF               	movlw	255
-  1664     0520  1683               	bsf	3,5	;RP0=1, select bank1
-  1665     0521  1303               	bcf	3,6	;RP1=0, select bank1
-  1666     0522  0085               	movwf	5	;volatile
-  1667     0523                     l1220:
-  1668                           
-  1669                           ;Lab2.c: 131:     TRISB = 0x00;
-  1670     0523  0186               	clrf	6	;volatile
-  1671     0524                     l1222:
+  1651                           ;Lab2.c: 127:     ADCON1bits.ADFM = 1;
+  1652     051E  1683               	bsf	3,5	;RP0=1, select bank1
+  1653     051F  1303               	bcf	3,6	;RP1=0, select bank1
+  1654     0520  179F               	bsf	31,7	;volatile
+  1655                           
+  1656                           ;Lab2.c: 128:     TRISA = 0xFF;
+  1657     0521  30FF               	movlw	255
+  1658     0522  0085               	movwf	5	;volatile
+  1659     0523                     l1217:
+  1660                           
+  1661                           ;Lab2.c: 129:     TRISB = 0x00;
+  1662     0523  0186               	clrf	6	;volatile
+  1663     0524                     l1219:
+  1664                           
+  1665                           ;Lab2.c: 130:     TRISD = 0x00;
+  1666     0524  0188               	clrf	8	;volatile
+  1667     0525                     l61:
+  1668     0525  0008               	return
+  1669     0526                     __end_of_Init:
+  1670     007E                     btemp	set	126	;btemp
+  1671     007E                     wtemp0	set	126
   1672                           
-  1673                           ;Lab2.c: 132:     TRISD = 0x00;
-  1674     0524  0188               	clrf	8	;volatile
-  1675     0525                     l61:
-  1676     0525  0008               	return
-  1677     0526                     __end_of_Init:
-  1678     007E                     btemp	set	126	;btemp
-  1679     007E                     wtemp0	set	126
-  1680                           
-  1681                           	psect	idloc
-  1682                           
-  1683                           ;Config register IDLOC0 @ 0x2000
-  1684                           ;	unspecified, using default values
-  1685     2000                     	org	8192
-  1686     2000  3FFF               	dw	16383
-  1687                           
-  1688                           ;Config register IDLOC1 @ 0x2001
-  1689                           ;	unspecified, using default values
-  1690     2001                     	org	8193
-  1691     2001  3FFF               	dw	16383
-  1692                           
-  1693                           ;Config register IDLOC2 @ 0x2002
-  1694                           ;	unspecified, using default values
-  1695     2002                     	org	8194
-  1696     2002  3FFF               	dw	16383
-  1697                           
-  1698                           ;Config register IDLOC3 @ 0x2003
-  1699                           ;	unspecified, using default values
-  1700     2003                     	org	8195
-  1701     2003  3FFF               	dw	16383
-  1702                           
-  1703                           	psect	config
-  1704                           
-  1705                           ;Config register CONFIG @ 0x2007
-  1706                           ;	Oscillator Selection bits
-  1707                           ;	FOSC = HS, HS oscillator
-  1708                           ;	Watchdog Timer Enable bit
-  1709                           ;	WDTE = OFF, WDT disabled
-  1710                           ;	Power-up Timer Enable bit
-  1711                           ;	PWRTE = OFF, PWRT disabled
-  1712                           ;	Brown-out Reset Enable bit
-  1713                           ;	BOREN = OFF, BOR disabled
-  1714                           ;	Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit
-  1715                           ;	LVP = OFF, RB3 is digital I/O, HV on MCLR must be used for programming
-  1716                           ;	Data EEPROM Memory Code Protection bit
-  1717                           ;	CPD = OFF, Data EEPROM code protection off
-  1718                           ;	Flash Program Memory Write Enable bits
-  1719                           ;	WRT = OFF, Write protection off; all program memory may be written to by EECON control
-  1720                           ;	In-Circuit Debugger Mode bit
-  1721                           ;	DEBUG = 0x1, unprogrammed default
-  1722                           ;	Flash Program Memory Code Protection bit
-  1723                           ;	CP = OFF, Code protection off
-  1724     2007                     	org	8199
-  1725     2007  3F3A               	dw	16186
+  1673                           	psect	idloc
+  1674                           
+  1675                           ;Config register IDLOC0 @ 0x2000
+  1676                           ;	unspecified, using default values
+  1677     2000                     	org	8192
+  1678     2000  3FFF               	dw	16383
+  1679                           
+  1680                           ;Config register IDLOC1 @ 0x2001
+  1681                           ;	unspecified, using default values
+  1682     2001                     	org	8193
+  1683     2001  3FFF               	dw	16383
+  1684                           
+  1685                           ;Config register IDLOC2 @ 0x2002
+  1686                           ;	unspecified, using default values
+  1687     2002                     	org	8194
+  1688     2002  3FFF               	dw	16383
+  1689                           
+  1690                           ;Config register IDLOC3 @ 0x2003
+  1691                           ;	unspecified, using default values
+  1692     2003                     	org	8195
+  1693     2003  3FFF               	dw	16383
+  1694                           
+  1695                           	psect	config
+  1696                           
+  1697                           ;Config register CONFIG @ 0x2007
+  1698                           ;	Oscillator Selection bits
+  1699                           ;	FOSC = HS, HS oscillator
+  1700                           ;	Watchdog Timer Enable bit
+  1701                           ;	WDTE = OFF, WDT disabled
+  1702                           ;	Power-up Timer Enable bit
+  1703                           ;	PWRTE = OFF, PWRT disabled
+  1704                           ;	Brown-out Reset Enable bit
+  1705                           ;	BOREN = OFF, BOR disabled
+  1706                           ;	Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit
+  1707                           ;	LVP = OFF, RB3 is digital I/O, HV on MCLR must be used for programming
+  1708                           ;	Data EEPROM Memory Code Protection bit
+  1709                           ;	CPD = OFF, Data EEPROM code protection off
+  1710                           ;	Flash Program Memory Write Enable bits
+  1711                           ;	WRT = OFF, Write protection off; all program memory may be written to by EECON control
+  1712                           ;	In-Circuit Debugger Mode bit
+  1713                           ;	DEBUG = 0x1, unprogrammed default
+  1714                           ;	Flash Program Memory Code Protection bit
+  1715                           ;	CP = OFF, Code protection off
+  1716     2007                     	org	8199
+  1717     2007  3F3A               	dw	16186
 
 Data Sizes:
     Strings     0
@@ -1872,16 +1864,16 @@ DATA                 0      0       0      12        0.0%
 
 
 Microchip Technology PIC Macro Assembler V2.40 build 20220703182018 
-Symbol Table                                                                                   Wed Nov 30 19:36:07 2022
+Symbol Table                                                                                   Wed Nov 30 19:45:00 2022
 
                       l30 0546                        l25 053C                        l27 052A  
                       l35 064D                        l61 0525                        l55 07FB  
                       l58 0729                        l67 054F              ___awdiv@sign 0076  
-                     l313 06B4                       l326 05EE                       l980 05F0  
-                     l974 052C                       l966 0526                       l990 05F5  
-                     l982 05F1                       l976 0530                       l968 0529  
-                     l978 0536                       l994 05F7                       l986 05F3  
-                     l998 05F9                       u310 0692                       u230 0536  
+                     l314 06B4                       l327 05EE                       l973 052C  
+                     l965 0526                       l981 05F1                       l975 0530  
+                     l967 0529                       l977 0536                       l993 05F7  
+                     l985 05F3                       l979 05F0                       l997 05F9  
+                     l989 05F5                       u310 0692                       u230 0536  
                      u311 0691                       u231 0535                       u400 05CD  
                      u240 0546                       u305 0682                       u401 05CC  
                      u241 0545                       u330 06A6                       u250 0653  
@@ -1895,68 +1887,68 @@ Symbol Table                                                                    
                      u361 05A5                       u441 0552                       u290 0681  
                      u370 05B1                       u291 0680                       u371 05B0  
                      u285 0673                       u390 05C3                       u391 05C2  
-                     u385 05B5              ___awmod@sign 0021                      l1010 05FF  
-                    l1002 05FB                      l1110 05A2                      l1102 0594  
-                    l1030 0609                      l1022 0605                      l1014 0601  
-                    l1006 05FD                      l1120 05BB                      l1112 05A6  
-                    l1104 0597                      l1200 06F6                      l1130 05DA  
-                    l1122 05BF                      l1114 05AB                      l1106 059B  
-                    l1042 060F                      l1034 060B                      l1026 0607  
-                    l1018 0603                      l1210 071F                      l1202 06F7  
-                    l1220 0523                      l1060 064F                      l1124 05C3  
-                    l1116 05B1                      l1132 05E0                      l1108 05A0  
-                    l1052 0613                      l1140 072A                      l1212 0720  
-                    l1204 0700                      l1222 0524                      l1214 0515  
-                    l1070 0663                      l1062 0653                      l1134 05E5  
-                    l1126 05CD                      l1118 05B4                      l1046 0611  
-                    l1038 060D                      l1150 0750                      l1142 0732  
-                    l1206 0715                      l1230 0553                      l1216 0519  
-                    l1080 0679                      l1072 0667                      l1064 0658  
-                    l1136 05EA                      l1128 05D3                      l1160 0786  
-                    l1152 0759                      l1144 0745                      l1208 0716  
-                    l1240 0581                      l1232 055B                      l1224 0547  
-                    l1218 051C                      l1090 0699                      l1082 067D  
-                    l1074 0669                      l1066 065A                      l1058 064E  
-                    l1170 07BC                      l1162 078F                      l1154 077B  
-                    l1146 0746                      l1234 0563                      l1226 054C  
-                    l1092 06A0                      l1084 0681                      l1076 066F  
-                    l1068 065E                      l1180 07F2                      l1172 07C5  
-                    l1164 07B1                      l1156 077C                      l1148 074F  
-                    l1244 0587                      l1236 056E                      l1228 054C  
-                    l1086 0692                      l1078 0672                      l1094 06A6  
-                    l1174 07E7                      l1166 07B2                      l1158 0785  
-                    l1190 06CD                      l1182 06B5                      l1238 0579  
-                    l1096 06AB                      l1088 0698                      l1176 07E8  
-                    l1168 07BB                      l1192 06CE                      l1184 06BD  
-                    l1098 06B0                      l1266 061B                      l1178 07F1  
-                    l1194 06D7                      l1186 06C3                      l1196 06EC  
-                    l1188 06C4                      l1198 06ED                      _Init 0515  
-                    _main 0547                      btemp 007E                      start 0000  
-                   ?_Init 0070                     ?_main 0070           __end_of___awdiv 06B5  
-         __end_of___awmod 05EF           ___awdiv@divisor 0070           ___awdiv@counter 0075  
-                   _PORTB 0006                     _PORTD 0008                     _TRISA 0085  
-                   _TRISB 0086                     _TRISD 0088                     status 0003  
-                   wtemp0 007E           __initialization 07FC              __end_of_Init 0526  
-            __end_of_main 0594                    ??_Init 0070                    ??_main 002C  
-                  _ADCON0 001F                    _ADRESH 001E                    _ADRESL 009E  
-        ___awdiv@dividend 0072           delay_ms@delayMs 0070          __end_of_delay_ms 0547  
-               ??___awdiv 0074                 ??___awmod 007D          ___awdiv@quotient 0077  
-       ?_displayDecNumber 0022           ___awmod@divisor 0079           ___awmod@counter 0020  
-      ??_displayDecNumber 007E   __end_of__initialization 07FC         ?_displayHexNumber 0079  
-      ??_displayHexNumber 007B            __pcstackCOMMON 0070                __pmaintext 0547  
-    displayDecNumber@meot 0026      displayDecNumber@unit 002A    displayDecNumber@alafim 0024  
-  displayDecNumber@asarot 0028                 ?_delay_ms 0070            display7s@digit 0072  
-  displayDecNumber@number 0022    displayHexNumber@asarot 0022    displayHexNumber@number 0079  
-       main@low_important 002E         __end_of_display7s 064E                   ___awdiv 064E  
-                 ___awmod 0594                   __ptext1 06B5                   __ptext2 072A  
-                 __ptext3 05EF                   __ptext4 0526                   __ptext5 0594  
-                 __ptext6 064E                   __ptext7 0515          ___awmod@dividend 007B  
-              ??_delay_ms 0072                   main@res 0036      end_of_initialization 07FC  
-               _PORTBbits 0006                main@adresh 0034                main@adresl 0032  
-              main@masker 0030       start_initialization 07FC      displayHexNumber@meot 0020  
-    displayHexNumber@unit 0024                 ___latbits 0002             __pcstackBANK0 0020  
-                ?___awdiv 0070                  ?___awmod 0079                 _display7s 05EF  
-        _displayDecNumber 072A                 delay_ms@i 0073                 delay_ms@j 0075  
-        _displayHexNumber 06B5                ?_display7s 0070                _ADCON0bits 001F  
-              _ADCON1bits 009F                  _delay_ms 0526               ??_display7s 0070  
-__end_of_displayDecNumber 07FC  __end_of_displayHexNumber 072A  
+                     u385 05B5              ___awmod@sign 0021                      l1001 05FB  
+                    l1101 0594                      l1021 0605                      l1013 0601  
+                    l1005 05FD                      l1111 05A6                      l1103 0597  
+                    l1121 05BF                      l1113 05AB                      l1105 059B  
+                    l1041 060F                      l1033 060B                      l1025 0607  
+                    l1017 0603                      l1009 05FF                      l1201 06F7  
+                    l1123 05C3                      l1115 05B1                      l1131 05E0  
+                    l1107 05A0                      l1051 0613                      l1211 0720  
+                    l1203 0700                      l1213 051A                      l1061 0653  
+                    l1133 05E5                      l1125 05CD                      l1117 05B4  
+                    l1109 05A2                      l1045 0611                      l1037 060D  
+                    l1029 0609                      l1141 0732                      l1205 0715  
+                    l1221 0547                      l1215 051E                      l1071 0667  
+                    l1063 0658                      l1135 05EA                      l1127 05D3  
+                    l1119 05BB                      l1151 0759                      l1143 0745  
+                    l1207 0716                      l1231 0563                      l1223 054C  
+                    l1217 0523                      l1081 067D                      l1073 0669  
+                    l1065 065A                      l1057 064E                      l1129 05DA  
+                    l1161 078F                      l1153 077B                      l1145 0746  
+                    l1209 071F                      l1241 0587                      l1233 056E  
+                    l1225 054C                      l1219 0524                      l1091 06A0  
+                    l1083 0681                      l1075 066F                      l1067 065E  
+                    l1059 064F                      l1171 07C5                      l1163 07B1  
+                    l1155 077C                      l1147 074F                      l1139 072A  
+                    l1235 0579                      l1227 0553                      l1085 0692  
+                    l1077 0672                      l1093 06A6                      l1069 0663  
+                    l1173 07E7                      l1165 07B2                      l1157 0785  
+                    l1149 0750                      l1181 06B5                      l1237 0581  
+                    l1229 055B                      l1095 06AB                      l1087 0698  
+                    l1079 0679                      l1263 061B                      l1175 07E8  
+                    l1167 07BB                      l1159 0786                      l1191 06CE  
+                    l1183 06BD                      l1097 06B0                      l1089 0699  
+                    l1177 07F1                      l1169 07BC                      l1193 06D7  
+                    l1185 06C3                      l1179 07F2                      l1195 06EC  
+                    l1187 06C4                      l1197 06ED                      l1189 06CD  
+                    l1199 06F6                      _Init 051A                      _main 0547  
+                    btemp 007E                      start 0000                     ?_Init 0070  
+                   ?_main 0070           __end_of___awdiv 06B5           __end_of___awmod 05EF  
+         ___awdiv@divisor 0070           ___awdiv@counter 0075                     _PORTB 0006  
+                   _PORTD 0008                     _TRISA 0085                     _TRISB 0086  
+                   _TRISD 0088                     status 0003                     wtemp0 007E  
+         __initialization 07FC              __end_of_Init 0526              __end_of_main 0594  
+                  ??_Init 0070                    ??_main 002C                    _ADCON0 001F  
+                  _ADRESH 001E                    _ADRESL 009E          ___awdiv@dividend 0072  
+         delay_ms@delayMs 0070          __end_of_delay_ms 0547                 ??___awdiv 0074  
+               ??___awmod 007D          ___awdiv@quotient 0077         ?_displayDecNumber 0022  
+         ___awmod@divisor 0079           ___awmod@counter 0020        ??_displayDecNumber 007E  
+ __end_of__initialization 07FC         ?_displayHexNumber 0079        ??_displayHexNumber 007B  
+          __pcstackCOMMON 0070                __pmaintext 0547      displayDecNumber@meot 0026  
+    displayDecNumber@unit 002A    displayDecNumber@alafim 0024    displayDecNumber@asarot 0028  
+               ?_delay_ms 0070            display7s@digit 0072    displayDecNumber@number 0022  
+  displayHexNumber@asarot 0022    displayHexNumber@number 0079         main@low_important 002E  
+       __end_of_display7s 064E                   ___awdiv 064E                   ___awmod 0594  
+                 __ptext1 06B5                   __ptext2 072A                   __ptext3 05EF  
+                 __ptext4 0526                   __ptext5 0594                   __ptext6 064E  
+                 __ptext7 051A          ___awmod@dividend 007B                ??_delay_ms 0072  
+                 main@res 0036      end_of_initialization 07FC                 _PORTBbits 0006  
+              main@adresh 0034                main@adresl 0032                main@masker 0030  
+     start_initialization 07FC      displayHexNumber@meot 0020      displayHexNumber@unit 0024  
+               ___latbits 0002             __pcstackBANK0 0020                  ?___awdiv 0070  
+                ?___awmod 0079                 _display7s 05EF          _displayDecNumber 072A  
+               delay_ms@i 0073                 delay_ms@j 0075          _displayHexNumber 06B5  
+              ?_display7s 0070                _ADCON0bits 001F                _ADCON1bits 009F  
+                _delay_ms 0526               ??_display7s 0070  __end_of_displayDecNumber 07FC  
+__end_of_displayHexNumber 072A  
