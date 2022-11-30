@@ -1,7 +1,7 @@
 /*
  * File:   Lab1.c
  * Author: Yuval
- *
+ * github : https://github.com/yuvalBerghaus/embedded_systems/tree/main/LAB1
  * Created on November 15, 2022, 8:45 PM
  */
 
