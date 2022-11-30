@@ -1,7 +1,7 @@
 /* 
  * File:   Lab2.c
  * Author: Yuval
- *
+ * github : https://github.com/yuvalBerghaus/embedded_systems/blob/main/LAB2/Lab2.X/Lab2.c
  * Created on November 29, 2022, 10:41 PM
  */
 
