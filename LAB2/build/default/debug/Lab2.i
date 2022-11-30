@@ -2100,13 +2100,25 @@ unsigned char display7s(unsigned char digit)
       return 0x7F;
     case 9:
       return 0x6F;
+    case 10:
+      return 0x77;
+    case 11:
+      return 0x7c;
+    case 12:
+      return 0x58;
+    case 13:
+      return 0x5E;
+    case 14:
+      return 0x79;
+    case 15:
+      return 0x71;
     default:
       return 0;
   }
 
 }
 
-void displayNumber(int number) {
+void displayDecNumber(int number) {
     int alafim = 0, meot = 0, asarot = 0, unit = 0;
     unit = number%10;
     PORTB = 0x00;
@@ -2128,8 +2140,27 @@ void displayNumber(int number) {
     PORTD = display7s(alafim);
     PORTBbits.RB7 = 1;
     delay_ms(3);
-
 }
+
+void displayHexNumber(int number) {
+    int alafim = 0, meot = 0, asarot = 0, unit = 0;
+    unit = number%16;
+    PORTB = 0x00;
+    PORTD = display7s(unit);
+    PORTBbits.RB4 = 1;
+    delay_ms(3);
+    asarot = (number/16)%16;
+    PORTB = 0x00;
+    PORTD = display7s(asarot);
+    PORTBbits.RB5 = 1;
+    delay_ms(3);
+    meot = (number/256)%16;
+    PORTB = 0x00;
+    PORTD = display7s(meot);
+    PORTBbits.RB6 = 1;
+    delay_ms(3);
+}
+
 
 void Init() {
     ADCON0 = 13;
@@ -2146,7 +2177,6 @@ void main() {
     while(1) {
         ADCON0bits.GO = 1;
         while(ADCON0bits.GO == 1);
-        if('A' == 'A') {
             int high_important = 0x00000003;
             int low_important = 0x000000FF;
             int masker = 0x000003FF;
@@ -2155,7 +2185,12 @@ void main() {
             int adresl = ADRESL & low_important;
             res = adresh + adresl;
             res = res & masker;
-            displayNumber(res);
-        }
+            if('B' == 'A') {
+                displayDecNumber(res);
+            }
+            else
+            {
+                displayHexNumber(res);
+            }
     }
 }
