@@ -16,7 +16,7 @@
 #pragma config CPD = OFF        
 #pragma config WRT = OFF        
 #pragma config CP = OFF         
-
+#define MODE 'A'
 #include <stdio.h>
 #include <stdlib.h>
 void delay_ms(unsigned int delayMs)
@@ -68,7 +68,7 @@ unsigned char display7s(unsigned char digit)
 }
 
 void displayNumber(int number) {
-    unsigned char alafim, meot, asarot, unit;
+    int alafim = 0, meot = 0, asarot = 0, unit = 0;
     unit = number%10;
     PORTB = 0x00;
     PORTD = display7s(unit);
@@ -93,7 +93,8 @@ void displayNumber(int number) {
 }
 
 void Init() {
-    ADCON0 = 0x09;  //CHS0=1, ADON=1
+    ADCON0 = 13;  //CHS0=1, ADON=1
+    ADCON1bits.ADFM = 1;
     ADCON0bits.ADON = 1;
     TRISA = 0xFF;
     TRISB = 0x00;
@@ -106,8 +107,19 @@ void main() {
     while(1) {
         ADCON0bits.GO = 1;
         while(ADCON0bits.GO == 1);
-        res = ADRESH * 2^8 + ADRESL;
-        displayNumber(res);
+        if(MODE == 'A') {
+            int high_important = 0x00000003;
+            int low_important = 0x000000FF;
+            int masker = 0x000003FF;
+            int adresh = ADRESH & high_important;
+            adresh = adresh << 8; // Would like to know why i cannot multiply it by 256 Eran or 2^8?
+            int adresl = ADRESL & low_important;
+            res = adresh + adresl;
+            res = res & masker;
+            displayNumber(res);   
+        }else {
+            
+        }
     }
 }
 

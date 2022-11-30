@@ -9,11 +9,11 @@
 ### Memory Usage ###
  Intel Hex-file ranges:
   0h - 5h		(dist/default/debug\Lab2.X.debug.hex)
-  BA8h - FFFh		(dist/default/debug\Lab2.X.debug.hex)
+  B50h - FFFh		(dist/default/debug\Lab2.X.debug.hex)
   4000h - 4007h		(dist/default/debug\Lab2.X.debug.hex)
   400Eh - 400Fh		(dist/default/debug\Lab2.X.debug.hex)
  Unused ranges:
-  6h - BA7h
+  6h - B4Fh
   1000h - 3FFFh
   4008h - 400Dh
 
@@ -26,7 +26,12 @@
 ----------------------------------------------------------
 00000000 | H1 H1 H1 H1 H1 H1 -- -- -- -- -- -- -- -- -- --
 ----------------------------------------------------------
-00000BA0 | -- -- -- -- -- -- -- -- H1 H1 H1 H1 H1 H1 H1 H1
+00000B50 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00000B60 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00000B70 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00000B80 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00000B90 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00000BA0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00000BB0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00000BC0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00000BD0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
