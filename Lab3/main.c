@@ -1,7 +1,7 @@
 /* 
  * File:   main.c
  * Author: Yuval
- *
+ * Github : https://github.com/yuvalBerghaus/embedded_systems/blob/main/Lab3
  * Created on December 8, 2022, 3:00 PM
  */
 
