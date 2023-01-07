@@ -4,7 +4,7 @@
  *
  * Created on December 30, 2022, 15:17 PM
  */
-
+// github - https://github.com/yuvalBerghaus/embedded_systems.git
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -106,6 +106,17 @@ void mixColors(int red, int green, int blue) {
     OC3R = blue;
 }
 
+void mixRed(int red) {
+    OC1R = red;
+}
+void mixGreen(int green) {
+    OC2R = green;
+}
+void mixBlue(int blue) {
+    OC3R = blue;
+}
+
+
 /*
                          Main application
  */
@@ -115,23 +126,14 @@ void main()
     int red_number = 1023;
     int green_number = 1023;
     int blue_number = 1023;
+    int red_mixed = 0;
+    int green_mixed = 0;
+    int blue_mixed = 0;
     int flag_mixed = 0;
+    long double shared_value = 0;
     int current_number = ADC1BUF0;
     int mode = 0;
     while(1) {
-        //The compositor
-//       if(PORTAbits.RA11 == 0) {
-//           PORTAbits.RA8 = 1;
-//           inputValues();
-//           delay_ms(60);
-//           PORTAbits.RA8 = 0;
-//       }
-//       if(PORTAbits.RA12 == 0) {
-//           mode = inputValues();
-//           delay_ms(60);
-//       }  
-        
-        
         current_number = ADC1BUF0;
         AD1CON1bits.SAMP = 1;
         delay_ms(10);
@@ -146,15 +148,19 @@ void main()
         else if(mode % 3 == 2 && !flag_mixed) {
             turnBlue(current_number); // BLUE
         }
-        else {
-            mixColors(red_number,green_number,blue_number);
+        else if(flag_mixed) {
+            shared_value = ADC1BUF0 / 1024.0;
+//            mixRed(red_number * shared_value);
+//            mixGreen(green_number * shared_value);
+//            mixBlue(blue_number * shared_value);
+            mixColors(red_number * shared_value , green_number * shared_value, blue_number * shared_value);
         }
         delay_ms(10);
         
         
        if(PORTAbits.RA12 == 0) { // s2 is pushed
-           if(mode % 3 == 0) { // GREEN
-               red_number = current_number;
+           if(mode % 3 == 0) { // FROM RED TO GREEN
+               red_number = current_number; // STORE RED VALUE
                mode++;
            }
            else if(mode % 3 == 1) { // BLUE
@@ -169,6 +175,17 @@ void main()
        }
        if(PORTAbits.RA11 == 0) { // s1 is pushed
            flag_mixed = !flag_mixed;
+           if(flag_mixed == 1) {
+               shared_value = ADC1BUF0 / 1024.0;
+               mixRed((red_number * shared_value));
+               mixGreen((green_number * shared_value));
+               mixBlue((blue_number * shared_value));
+           }
+           else {
+               red_number = 1023;
+               green_number = 1023;
+               blue_number = 1023;
+           }
            delay_ms(200);
        }  
     }
