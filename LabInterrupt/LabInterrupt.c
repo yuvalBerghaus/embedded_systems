@@ -55,12 +55,12 @@ void initialize() {
     TRISAbits.TRISA11 = 1;
     TRISAbits.TRISA12 = 1;
   
-    IFS1bits.IOCIF = 0;
-    IEC1bits.IOCIE = 1;
-    IOCNAbits.IOCNA11 = 1;
-    IOCNAbits.IOCNA12 = 1;
-    PADCONbits.IOCON = 1;
-    INTCON2bits.GIE = 1;
+    IFS1bits.IOCIF = 0; // we define interrupt flag 0 at the beggeining since we are starting with no interrupts on change
+    IEC1bits.IOCIE = 1;  //  enabling interrupt-on-change interrupts
+    IOCNAbits.IOCNA11 = 1; // iocna11 = 1 means that we are enabling the pin of register bit for that component for s1 in portA
+    IOCNAbits.IOCNA12 = 1; // iocna11 = 1 means that we are enabling the pin of register bit for that component for s2 in portA
+    PADCONbits.IOCON = 1; // turning on interrupt controller
+    INTCON2bits.GIE = 1; // enable global interrupts
 }
 
 void __attribute__((__interrupt__)) _IOCInterrupt(void) {
