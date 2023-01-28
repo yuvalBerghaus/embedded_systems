@@ -14,6 +14,10 @@
 #include "oledDriver/oledC_colors.h"
 #include "oledDriver/oledC_shapes.h"
 
+int flag = false; // global variable flag that represents the transition from screen_2 to the game when it becomes true
+
+
+
 
 void display_screen1() {
       oledC_clearScreen();
@@ -31,22 +35,54 @@ void display_screen2() {
       oledC_DrawString(22, 80, 1, 1, "to begin", OLEDC_COLOR_WHITE); 
 }
 
+void Init() {
+    TRISAbits.TRISA11 = 1; // define input button s1
+    TRISAbits.TRISA12 = 1; // define input button s2
+  
+    IFS1bits.IOCIF = 0; // we define interrupt flag 0 at the beggeining since we are starting with no interrupts on change
+    IEC1bits.IOCIE = 1;  //  enabling interrupt-on-change interrupts
+    IOCNAbits.IOCNA11 = 1; // iocna11 = 1 means that we are enabling the pin of register bit for that component for s1 in portA
+    IOCNAbits.IOCNA12 = 1; // iocna11 = 1 means that we are enabling the pin of register bit for that component for s2 in portA
+    PADCONbits.IOCON = 1; // turning on interrupt controller
+    INTCON2bits.GIE = 1; // enable global interrupts
+}
+
 
 /*
                          Main application
  */
+
+void __attribute__((__interrupt__)) _IOCInterrupt(void) {
+    if (PORTAbits.RA12 == 0) {
+        flag = true;
+    } else if (PORTAbits.RA11 == 0) {
+        flag = true;
+    }
+    IFS1bits.IOCIF = 0;
+}
+
 int main(void)
 {
-    uint8_t x, y;
     // initialize the system
     SYSTEM_Initialize();
+    Init();
     oledC_setBackground(OLEDC_COLOR_BLACK);
     display_screen1();
     DELAY_milliseconds(3000);
     display_screen2();
     //Main loop
-    while(1)
-    { 
+    while(1) {
+        // First we need to check if any IO interrupts occured from screen_2 so we can start the game 
+        if (PORTAbits.RA11 == 0) {
+            if (flag == true) {
+                oledC_clearScreen();
+            }
+        } 
+        if (PORTAbits.RA12 == 0) {
+            if (flag == true) {
+                oledC_clearScreen();
+            }
+        }
     }
   return 1;
 }
