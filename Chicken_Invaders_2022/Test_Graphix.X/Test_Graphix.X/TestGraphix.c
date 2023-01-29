@@ -15,8 +15,10 @@
 #include "oledDriver/oledC_shapes.h"
 
 int flag = false; // global variable flag that represents the transition from screen_2 to the game when it becomes true
-
-
+uint8_t jump_down = 10;
+uint8_t current_start_y_enemy = 0;
+uint8_t current_end_y_enemy = 10;
+//The following variable will save the location of the player so whenever i clear the screen 
 
 
 void display_screen1() {
@@ -43,15 +45,33 @@ void start_game() {
 
 
 void Init() {
+    // Input/Output Configuration for TRIState
     TRISAbits.TRISA11 = 1; // define input button s1
     TRISAbits.TRISA12 = 1; // define input button s2
-  
+    // Interrupt IO
     IFS1bits.IOCIF = 0; // we define interrupt flag 0 at the beggeining since we are starting with no interrupts on change
     IEC1bits.IOCIE = 1;  //  enabling interrupt-on-change interrupts
     IOCNAbits.IOCNA11 = 1; // iocna11 = 1 means that we are enabling the pin of register bit for that component for s1 in portA
     IOCNAbits.IOCNA12 = 1; // iocna11 = 1 means that we are enabling the pin of register bit for that component for s2 in portA
     PADCONbits.IOCON = 1; // turning on interrupt controller
     INTCON2bits.GIE = 1; // enable global interrupts
+    
+    
+    // Interrupt Timer
+    T1CONbits.TON = 1;
+    T1CONbits.TSIDL = 1;
+    T1CONbits.TGATE = 0;
+    T1CONbits.TCKPS = 3; //                                             1:64
+    T1CONbits.TCS = 0;
+    TMR1 = 0;
+    PR1=16400;
+    IFS0bits.T1IF=0;
+    IPC0bits.T1IP=1;
+    IEC0bits.T1IE=1;
+    INTCON2bits.GIE=1;
+    
+    
+    
 }
 
 
@@ -64,8 +84,10 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
 {
     if (flag == 1) // the first object starts to fall
     {
-        flag++;
-        
+        oledC_DrawRectangle(0,current_start_y_enemy-jump_down,10,current_end_y_enemy-jump_down,OLEDC_COLOR_BLACK);
+        oledC_DrawRectangle(0,current_start_y_enemy,10,current_end_y_enemy,OLEDC_COLOR_PURPLE); // the enemy
+        current_start_y_enemy += jump_down;
+        current_end_y_enemy += jump_down;
     }
     IFS0bits.T1IF=0;
 }
