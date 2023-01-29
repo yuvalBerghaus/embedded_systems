@@ -35,6 +35,13 @@ void display_screen2() {
       oledC_DrawString(22, 80, 1, 1, "to begin", OLEDC_COLOR_WHITE); 
 }
 
+void start_game() {
+      oledC_clearScreen(); 
+      oledC_DrawRectangle(35,80,55,95,OLEDC_COLOR_BLUE);
+      oledC_DrawRectangle(35,80,55,95,OLEDC_COLOR_BLUE);
+}
+
+
 void Init() {
     TRISAbits.TRISA11 = 1; // define input button s1
     TRISAbits.TRISA12 = 1; // define input button s2
@@ -51,6 +58,17 @@ void Init() {
 /*
                          Main application
  */
+
+
+void __attribute__((__interrupt__)) _T1Interrupt(void)
+{
+    if (flag == 1) // the first object starts to fall
+    {
+        flag++;
+        
+    }
+    IFS0bits.T1IF=0;
+}
 
 void __attribute__((__interrupt__)) _IOCInterrupt(void) {
     if (PORTAbits.RA12 == 0) {
@@ -75,12 +93,12 @@ int main(void)
         // First we need to check if any IO interrupts occured from screen_2 so we can start the game 
         if (PORTAbits.RA11 == 0) {
             if (flag == true) {
-                oledC_clearScreen();
+                start_game();
             }
         } 
         if (PORTAbits.RA12 == 0) {
             if (flag == true) {
-                oledC_clearScreen();
+                start_game();
             }
         }
     }
