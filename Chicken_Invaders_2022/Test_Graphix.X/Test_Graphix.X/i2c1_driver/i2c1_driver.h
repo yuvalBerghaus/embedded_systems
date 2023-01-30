@@ -46,6 +46,7 @@ bool  i2c1_driver_driver_open(void);
 bool i2c1_driver_driver_close(void);
 char i2c1_driver_getRXData(void);
 void i2c1_driver_TXData(uint8_t);
+
 // void i2c1_driver_resetBus(void);
 void i2c1_driver_start(void);
 void i2c1_driver_restart(void);
