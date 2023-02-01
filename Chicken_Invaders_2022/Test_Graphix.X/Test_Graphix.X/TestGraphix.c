@@ -209,14 +209,20 @@ void draw_player() {
         rc=i2cReadSlaveRegister(0x3A, 0x32+i, &xyz[i]);
         DELAY_microseconds(5);            
     }
-    oledC_DrawRectangle(x % 78,90,x % 78 + 10,95,OLEDC_COLOR_BLACK);
+//    oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_BLACK);
+//    oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_BLACK);
+//    oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_BLACK);
+    oledC_DrawRectangle(x % 85,90,x % 85 + 10,95,OLEDC_COLOR_BLACK);
     x = xyz[0]+xyz[1]*256;  //2xbytes ==> word
     y = xyz[2]+xyz[3]*256;
     z = xyz[4]+xyz[5]*256;
     sprintf(xx, "%d", x);   //Make it a string
     sprintf(yy, "%d", y);
     sprintf(zz, "%d", z);
-    oledC_DrawRectangle(x % 78,90,x % 78 + 10,95,OLEDC_COLOR_BLUE);
+//    oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_PURPLE);
+//    oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_PURPLE);
+//    oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_PURPLE);
+    oledC_DrawRectangle(x % 85,90,x % 85 + 10,95,OLEDC_COLOR_BLUE);
     
 }
 
@@ -276,8 +282,8 @@ int main(void)
             }
             if(update_location_flag) {
                 update_location_flag = false;
-                update_list();
-                drawShapes();
+//                update_list();
+//                drawShapes();
                 draw_player();
             }
  ////////////////////////////////////////////////
