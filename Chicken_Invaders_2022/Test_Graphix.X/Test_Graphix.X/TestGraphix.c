@@ -191,7 +191,6 @@ void draw_player() {
 
     i2c1_driver_driver_close();
     i2c1_open();
-    DELAY_milliseconds(1500);
     //    rc = i2cWriteSlaveRegister(0x3A, 0x2D, 8);
 
 
@@ -210,11 +209,10 @@ void draw_player() {
         rc=i2cReadSlaveRegister(0x3A, 0x32+i, &xyz[i]);
         DELAY_microseconds(5);            
     }
-
+    oledC_DrawRectangle(x % 78,90,x % 78 + 10,95,OLEDC_COLOR_BLACK);
     x = xyz[0]+xyz[1]*256;  //2xbytes ==> word
     y = xyz[2]+xyz[3]*256;
     z = xyz[4]+xyz[5]*256;
-
     sprintf(xx, "%d", x);   //Make it a string
     sprintf(yy, "%d", y);
     sprintf(zz, "%d", z);
@@ -280,6 +278,7 @@ int main(void)
                 update_location_flag = false;
                 update_list();
                 drawShapes();
+                draw_player();
             }
  ////////////////////////////////////////////////
 //            //  === Display Axes Acceleration   ====================
