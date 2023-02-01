@@ -65,7 +65,7 @@ SHAPE obstacles[30];
 int i = 0;
 int amount_of_obstacles = 0;
 int shift =5;
-
+int x = 0, y = 0, z = 0;
 void update_list() {
     for(i = 0; i < amount_of_obstacles ; i++) {
         if(obstacles[i].y_end > 75) {
@@ -110,8 +110,7 @@ void display_screen2() {
 
 void start_game() {
       oledC_clearScreen(); 
-      oledC_DrawRectangle(35,80,55,95,OLEDC_COLOR_BLUE);
-      oledC_DrawRectangle(35,80,55,95,OLEDC_COLOR_BLUE);
+//      oledC_DrawRectangle(35,90,55,95,OLEDC_COLOR_BLUE);
 }
 //
 //
@@ -164,6 +163,15 @@ void Init() {
 
 }
 
+void errorStop(char *msg)
+{
+    oledC_DrawString(0, 20, 2, 2, msg, OLEDC_COLOR_DARKRED);
+
+    for (;;)
+        ;
+}
+
+
 int randomNumber() {
     static int seeded = 0;
     if (!seeded) {
@@ -171,6 +179,47 @@ int randomNumber() {
         seeded = 1;
     }
     return rand() % 79;
+}
+
+void draw_player() {
+    unsigned char id = 0;
+    I2Cerror rc;
+    char xx[]="     ";
+    char yy[]="     ";
+    char zz[]="     ";
+    unsigned char xyz[6] = {0};
+
+    i2c1_driver_driver_close();
+    i2c1_open();
+    DELAY_milliseconds(1500);
+    //    rc = i2cWriteSlaveRegister(0x3A, 0x2D, 8);
+
+
+    rc = i2cReadSlaveRegister(0x3A, 0, &id);
+
+    if (rc == OK)
+        if(id==0xE5)
+            oledC_DrawString(10, 10, 2, 2, "ADXL345", OLEDC_COLOR_BLACK);
+        else
+            errorStop("Acc!Found");
+    else
+        errorStop("I2C Error");
+
+    rc = i2cWriteSlaveRegister(0x3A, 0x2D, 8);
+    for (i=0 ; i<6 ; ++i) {
+        rc=i2cReadSlaveRegister(0x3A, 0x32+i, &xyz[i]);
+        DELAY_microseconds(5);            
+    }
+
+    x = xyz[0]+xyz[1]*256;  //2xbytes ==> word
+    y = xyz[2]+xyz[3]*256;
+    z = xyz[4]+xyz[5]*256;
+
+    sprintf(xx, "%d", x);   //Make it a string
+    sprintf(yy, "%d", y);
+    sprintf(zz, "%d", z);
+    oledC_DrawRectangle(x % 78,90,x % 78 + 10,95,OLEDC_COLOR_BLUE);
+    
 }
 
 void __attribute__((__interrupt__,auto_psv)) _T1Interrupt(void)
@@ -209,14 +258,6 @@ int main(void)
             is_pressed_any_key = false;
         }
         if(flag && is_pressed_any_key == false) {
-            if(update_location_flag) {
-                update_location_flag = false;
-                update_list();
-                drawShapes();
-                
-                
-                
-            }   
             if(timer_counter % 3 && generated_obstacle == false) {
                 generated_obstacle = true;
                 if(amount_of_obstacles == 30) {
@@ -235,7 +276,24 @@ int main(void)
                 obstacles[amount_of_obstacles++] = obstacle;
                 
             }
+            if(update_location_flag) {
+                update_location_flag = false;
+                update_list();
+                drawShapes();
+            }
+ ////////////////////////////////////////////////
+//            //  === Display Axes Acceleration   ====================
+//            oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_BLACK);
+//            oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_BLACK);
+//            oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_BLACK);
+//            DELAY_milliseconds(1500);
+//
+//            //  === Erase Axes Acceleration   ====================
+//            oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_SKYBLUE);
+//            oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_SKYBLUE);
+//            oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_SKYBLUE);        
+            }
+    /////////////////////////////////////////////////
         }
-    }
     return 1;
-}
+    }
