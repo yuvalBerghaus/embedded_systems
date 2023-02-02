@@ -223,6 +223,21 @@ void start_game() {
 }
 
 
+void setup_timer1(void) {
+        // Interrupt Timer
+    T1CONbits.TON = 1;
+    T1CONbits.TSIDL = 1;
+    T1CONbits.TGATE = 0;
+    T1CONbits.TCKPS = 3; //                                             1:64
+    T1CONbits.TCS = 0;
+    TMR1 = 0;
+    PR1=16400;
+    IFS0bits.T1IF=0;
+    IPC0bits.T1IP=1;
+    IEC0bits.T1IE=1;
+    INTCON2bits.GIE=1;
+}
+
 void setup_timer2(void)
 {
     T2CONbits.TSIDL = 1;
@@ -254,33 +269,9 @@ void Init() {
     PADCONbits.IOCON = 1; // turning on interrupt controller
     INTCON2bits.GIE = 1; // enable global interrupts
     
-    
-    // Interrupt Timer
-    T1CONbits.TON = 1;
-    T1CONbits.TSIDL = 1;
-    T1CONbits.TGATE = 0;
-    T1CONbits.TCKPS = 3; //                                             1:64
-    T1CONbits.TCS = 0;
-    TMR1 = 0;
-    PR1=16400;
-    IFS0bits.T1IF=0;
-    IPC0bits.T1IP=1;
-    IEC0bits.T1IE=1;
-    INTCON2bits.GIE=1;
-    
-    
+    setup_timer1();
     
     setup_timer2();
-//    T2CONbits.TON = 1;
-//    T2CONbits.TSIDL = 1;
-//    T2CONbits.TGATE = 0;
-//    T2CONbits.TCKPS = 3; //                                             1:64
-//    T2CONbits.TCS = 0;
-//    TMR2 = 0;
-//    PR2=16400;
-//    IFS0bits.T2IF=0;
-//    IPC1bits.T2IP=1;
-//    IEC0bits.T2IE=1;
     
     oledC_setBackground(OLEDC_COLOR_BLACK);
     display_screen1();
@@ -361,7 +352,7 @@ int main(void)
             generate_player();
         }
         if(flag) {
-            DELAY_microseconds(20000); 
+            DELAY_microseconds(400000); 
             drawSpaceShip();
             if(update_location_flag) {
                 update_location_flag = false;
@@ -403,20 +394,8 @@ int main(void)
                 laser.hit = false;
                 laser_beams[amount_of_lasers++] = laser;
                 
-            }
- ////////////////////////////////////////////////
-//            //  === Display Axes Acceleration   ====================
-//            oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_BLACK);
-//            oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_BLACK);
-//            oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_BLACK);
-//            DELAY_milliseconds(1500);
-//
-//            //  === Erase Axes Acceleration   ====================
-//            oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_SKYBLUE);
-//            oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_SKYBLUE);
-//            oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_SKYBLUE);        
+            }      
         }
-    /////////////////////////////////////////////////
     }
     return 1;
 }
