@@ -46,12 +46,17 @@ char* itoa(int i, char b[]){
 int flag = false; // global variable flag that represents the transition from screen_2 to the game when it becomes true
 int timer_counter = 1;
 uint8_t jump_down = 10;
-uint8_t current_start_y_enemy = 0;
-uint8_t current_end_y_enemy = 10;
 bool update_location_flag = false;
 bool generated_obstacle = false;
+bool generated_laser_beam = false;
 bool is_pressed_any_key = false;
 int x_adapt = 60;
+int i = 0;
+int amount_of_obstacles = 0;
+int amount_of_lasers = 0;
+int shift =5;
+int x = 0, y = 0, z = 0;
+
 
 typedef struct SHAPE {
     uint8_t x_start;
@@ -64,12 +69,62 @@ typedef struct SHAPE {
     uint16_t color;
 } SHAPE;
 
+
+/*objects in board*/
+SHAPE player;
 SHAPE obstacles[30];
-int i = 0;
-int amount_of_obstacles = 0;
-int shift =5;
-int x = 0, y = 0, z = 0;
-void update_list() {
+SHAPE laser_beams[30];
+
+
+int convert_x_axis(int x_accelarometer) {
+    return 96 - (int)((x_accelarometer + 255) * (96.0 / 510.0));
+}
+int get_x_axis_from_accel() {
+    unsigned char id = 0;
+    I2Cerror rc;
+    char xx[]="     ";
+    char yy[]="     ";
+    char zz[]="     ";
+    unsigned char xyz[6] = {0};
+    i2c1_driver_driver_close();
+    i2c1_open();
+    //    rc = i2cWriteSlaveRegister(0x3A, 0x2D, 8);
+
+
+    rc = i2cReadSlaveRegister(0x3A, 0, &id);
+
+    if (rc == OK)
+        if(id==0xE5)
+            oledC_DrawString(10, 10, 2, 2, "ADXL345", OLEDC_COLOR_BLACK);
+        else
+            errorStop("Acc!Found");
+    else
+        errorStop("I2C Error");
+
+    rc = i2cWriteSlaveRegister(0x3A, 0x2D, 8);
+    for (i=0 ; i<6 ; ++i) {
+        rc=i2cReadSlaveRegister(0x3A, 0x32+i, &xyz[i]);
+        DELAY_microseconds(5);            
+    }
+//    oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_BLACK);
+//    oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_BLACK);
+//    oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_BLACK);
+    x = xyz[0]+xyz[1]*256;  //2xbytes ==> word
+    y = xyz[2]+xyz[3]*256;
+    z = xyz[4]+xyz[5]*256;
+    sprintf(xx, "%d", x);   //Make it a string
+    sprintf(yy, "%d", y);
+    sprintf(zz, "%d", z);
+//    oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_PURPLE);
+//    oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_PURPLE);
+//    oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_PURPLE);
+    return convert_x_axis(x);;
+}
+
+
+void update_frame() {
+
+    //updating obstacles new location
     for(i = 0; i < amount_of_obstacles ; i++) {
         if(obstacles[i].y_end > 75) {
             oledC_DrawRectangle(obstacles[i].x_start,obstacles[i].y_start-jump_down,obstacles[i].x_end,obstacles[i].y_end-jump_down,OLEDC_COLOR_BLACK);
@@ -77,22 +132,61 @@ void update_list() {
             obstacles[i].hit = true;
             continue;
         }
-        obstacles[i].y_start = obstacles[i].y_start+jump_down;
-        obstacles[i].y_end = obstacles[i].y_end+jump_down;
+        else {
+            obstacles[i].y_start = obstacles[i].y_start+jump_down;
+            obstacles[i].y_end = obstacles[i].y_end+jump_down;   
+        }
     }
+    
+    for(i = 0 ; i < amount_of_lasers ; i++) {
+        if(laser_beams[i].y_start < 6) {
+            oledC_DrawRectangle(laser_beams[i].x_start,laser_beams[i].y_start+jump_down,laser_beams[i].x_end,laser_beams[i].y_end+jump_down,OLEDC_COLOR_BLACK);
+            oledC_DrawRectangle(laser_beams[i].x_start,laser_beams[i].y_start,laser_beams[i].x_end,laser_beams[i].y_end,OLEDC_COLOR_BLACK);
+            laser_beams[i].hit = true;
+            continue;
+        }
+        else {
+            laser_beams[i].y_start -= jump_down;
+            laser_beams[i].y_end -= jump_down; 
+        }
+    }
+    
+    // updating player's location
+//    oledC_DrawRectangle(x_adapt ,90,x_adapt + 10,95,OLEDC_COLOR_BLACK);
+//    x_adapt = get_x_axis_from_accel();
+//    player.x_start = x_adapt;
+//    player.x_end = x_adapt + player.length;
+    
+    
+   // laser_beams[amount_of_lasers++]
 }
 
 ////The following variable will save the location of the player so whenever i clear the screen 
 //
 void drawShapes() {
+    for(i = 0 ; i <= amount_of_lasers ; i++) {
+        if(laser_beams[i].hit == true)
+            continue;
+        oledC_DrawRectangle(laser_beams[i].x_start,laser_beams[i].y_start+jump_down,laser_beams[i].x_end,laser_beams[i].y_end+jump_down,OLEDC_COLOR_BLACK);
+        oledC_DrawRectangle(laser_beams[i].x_start,laser_beams[i].y_start,laser_beams[i].x_end,laser_beams[i].y_end,OLEDC_COLOR_RED); // the enemy
+    }
     for(i = 0 ; i <= amount_of_obstacles ; i++) {
         if(obstacles[i].hit == true)
             continue;
         oledC_DrawRectangle(obstacles[i].x_start,obstacles[i].y_start-jump_down,obstacles[i].x_end,obstacles[i].y_end-jump_down,OLEDC_COLOR_BLACK);
         oledC_DrawRectangle(obstacles[i].x_start,obstacles[i].y_start,obstacles[i].x_end,obstacles[i].y_end,OLEDC_COLOR_PURPLE); // the enemy
     }
+//    oledC_DrawRectangle(player.x_start,player.y_start,player.x_end,player.y_end,OLEDC_COLOR_BLUE);
 }
 
+void drawSpaceShip() {
+    // updating player's location
+    oledC_DrawRectangle(x_adapt ,90,x_adapt + 10,95,OLEDC_COLOR_BLACK);
+    x_adapt = get_x_axis_from_accel();
+    player.x_start = x_adapt;
+    player.x_end = x_adapt + player.length;
+    oledC_DrawRectangle(player.x_start,player.y_start,player.x_end,player.y_end,OLEDC_COLOR_BLUE);
+}
 
 void display_screen1() {
       oledC_clearScreen();
@@ -111,8 +205,20 @@ void display_screen2() {
 }
 
 
+void generate_player() {
+      player._type = 0;
+      player.color = OLEDC_COLOR_BLUE;
+      player.hit = false;
+      player.length = 10;
+      player.x_start = x_adapt;
+      player.y_start = 90;
+      player.x_end = x_adapt + player.length;
+      player.y_end = 95;
+}
+
 void start_game() {
-      oledC_clearScreen(); 
+    oledC_clearScreen(); 
+    generate_player();
 //      oledC_DrawRectangle(35,90,55,95,OLEDC_COLOR_BLUE);
 }
 
@@ -201,58 +307,9 @@ int randomNumber() {
     return rand() % 79;
 }
 
-
-int convert_x_axis(int x_accelarometer) {
-    return 96 - (int)((x_accelarometer + 255) * (96.0 / 510.0));
-}
-void draw_player() {
-    unsigned char id = 0;
-    I2Cerror rc;
-    char xx[]="     ";
-    char yy[]="     ";
-    char zz[]="     ";
-    unsigned char xyz[6] = {0};
-    i2c1_driver_driver_close();
-    i2c1_open();
-    //    rc = i2cWriteSlaveRegister(0x3A, 0x2D, 8);
-
-
-    rc = i2cReadSlaveRegister(0x3A, 0, &id);
-
-    if (rc == OK)
-        if(id==0xE5)
-            oledC_DrawString(10, 10, 2, 2, "ADXL345", OLEDC_COLOR_BLACK);
-        else
-            errorStop("Acc!Found");
-    else
-        errorStop("I2C Error");
-
-    rc = i2cWriteSlaveRegister(0x3A, 0x2D, 8);
-    for (i=0 ; i<6 ; ++i) {
-        rc=i2cReadSlaveRegister(0x3A, 0x32+i, &xyz[i]);
-        DELAY_microseconds(5);            
-    }
-//    oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_BLACK);
-//    oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_BLACK);
-//    oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_BLACK);
-    oledC_DrawRectangle(x_adapt ,90,x_adapt + 10,95,OLEDC_COLOR_BLACK);
-    x = xyz[0]+xyz[1]*256;  //2xbytes ==> word
-    y = xyz[2]+xyz[3]*256;
-    z = xyz[4]+xyz[5]*256;
-    sprintf(xx, "%d", x);   //Make it a string
-    sprintf(yy, "%d", y);
-    sprintf(zz, "%d", z);
-//    oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_PURPLE);
-//    oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_PURPLE);
-//    oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_PURPLE);
-    x_adapt = convert_x_axis(x);
-    oledC_DrawRectangle(x_adapt ,90,x_adapt + 10,95,OLEDC_COLOR_BLUE);
-    
-}
-
 void __attribute__((__interrupt__,auto_psv)) _T1Interrupt(void)
 {
-    if (flag) // the first object starts to fall
+    if (flag && update_location_flag == false) // the first object starts to fall
     {
         update_location_flag = true;
 //        if(timer_counter % 3) generated_obstacle = false;
@@ -260,26 +317,32 @@ void __attribute__((__interrupt__,auto_psv)) _T1Interrupt(void)
     }
     IFS0bits.T1IF=0;
 }
-
+/*Timer 2 is in charge of turning the flag on every 3 seconds when generating a new obstacle*/
 void __attribute__((__interrupt__,auto_psv)) _T2Interrupt(void)
 {
-    if (flag) // the first object starts to fall
+    if (flag && generated_obstacle == false) // the first object starts to fall
     {
-        generated_obstacle = false;
+        generated_obstacle = true;
     }
     IFS0bits.T2IF=0;
 }
 
 
-
+/*IO interrupt - whenever we click any button at the beggeining it will 
+transfer us to the starting game and whenever we click the starting game the button s2 
+then it will put flag to generate laser*/
 void __attribute__((__interrupt__,auto_psv)) _IOCInterrupt(void) {
 //    if (PORTAbits.RA12 == 0) {
 //        flag = true;
 //    } else if (PORTAbits.RA11 == 0) {
 //        flag = true;
 //    }
-    is_pressed_any_key = true;
-    flag = true;
+    if(flag && generated_laser_beam == false) {
+        generated_laser_beam = true;
+    }
+    if(is_pressed_any_key == false) {
+         is_pressed_any_key = true;   
+    }
     IFS1bits.IOCIF = 0;
 }
 
@@ -291,13 +354,23 @@ int main(void)
 //    Main loop
     while(1) {
         // First we need to check if any IO interrupts occured from screen_2 so we can start the game 
-        if(is_pressed_any_key == true) {
-            is_pressed_any_key = false;
+        if(is_pressed_any_key == true && flag == false) {
+//            is_pressed_any_key = false;
+            flag = true;
             start_game();
+            generate_player();
         }
         if(flag) {
-            if(/*timer_counter % 3 */generated_obstacle == false) {
-                generated_obstacle = true;
+            DELAY_microseconds(20000); 
+            drawSpaceShip();
+            if(update_location_flag) {
+                update_location_flag = false;
+                update_frame();
+                drawShapes();
+            }
+            //every 3 seconds generated_obstacle flag will be true from the start of the game
+            if(generated_obstacle == true) {
+                generated_obstacle = false;
                 if(amount_of_obstacles == 30) {
                     amount_of_obstacles = 0;
                 }
@@ -314,11 +387,22 @@ int main(void)
                 obstacles[amount_of_obstacles++] = obstacle;
                 
             }
-            if(update_location_flag) {
-                update_location_flag = false;
-                update_list();
-                drawShapes();
-                draw_player();
+            if(generated_laser_beam == true) {
+                generated_laser_beam = false;
+                if(amount_of_lasers == 30) {
+                    amount_of_lasers = 0;
+                }
+                SHAPE laser;
+                laser.color = OLEDC_COLOR_RED;
+                laser.length = 4;
+                laser.x_start = player.x_start+laser.length;
+                laser.y_start = player.y_start-laser.length;
+                laser.x_end = player.x_end-laser.length;
+                laser.y_end = player.y_start;
+                laser._type = 0x1;
+                laser.hit = false;
+                laser_beams[amount_of_lasers++] = laser;
+                
             }
  ////////////////////////////////////////////////
 //            //  === Display Axes Acceleration   ====================
