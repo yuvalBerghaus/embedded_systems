@@ -19,6 +19,9 @@
 #define ADXL345_REG_DEVID 0x00
 #include "./i2c1_driver/i2c1_driver.h"
 #include "../Accel.h"
+#define Fosc    32000000UL   // Oscillator frequency in Hz
+#define TICK_PERIOD (Fosc/4/8)  // Timer tick period
+#define INTERRUPT_PERIOD (3UL * TICK_PERIOD) // Interrupt period in timer ticks
 
 char* itoa(int i, char b[]){
     char const digit[] = "0123456789";
@@ -48,7 +51,7 @@ uint8_t current_end_y_enemy = 10;
 bool update_location_flag = false;
 bool generated_obstacle = false;
 bool is_pressed_any_key = false;
-
+int x_adapt = 60;
 
 typedef struct SHAPE {
     uint8_t x_start;
@@ -112,6 +115,22 @@ void start_game() {
       oledC_clearScreen(); 
 //      oledC_DrawRectangle(35,90,55,95,OLEDC_COLOR_BLUE);
 }
+
+
+void setup_timer2(void)
+{
+    T2CONbits.TSIDL = 1;
+    T2CONbits.TGATE = 0;
+    T2CONbits.TCKPS = 3;  // 1:8 prescaler
+    T2CONbits.TCS = 0;
+    TMR2 = 0;
+    PR2 = INTERRUPT_PERIOD - 1;
+    IFS0bits.T2IF = 0;
+    IPC1bits.T2IP = 0x02;
+    IEC0bits.T2IE = 1;
+    T2CONbits.TON = 1;
+}
+
 //
 //
 void Init() {
@@ -144,12 +163,8 @@ void Init() {
     INTCON2bits.GIE=1;
     
     
-    oledC_setBackground(OLEDC_COLOR_BLACK);
-    display_screen1();
-    DELAY_milliseconds(3000);
-    display_screen2();
     
-    
+    setup_timer2();
 //    T2CONbits.TON = 1;
 //    T2CONbits.TSIDL = 1;
 //    T2CONbits.TGATE = 0;
@@ -160,6 +175,11 @@ void Init() {
 //    IFS0bits.T2IF=0;
 //    IPC1bits.T2IP=1;
 //    IEC0bits.T2IE=1;
+    
+    oledC_setBackground(OLEDC_COLOR_BLACK);
+    display_screen1();
+    DELAY_milliseconds(3000);
+    display_screen2();
 
 }
 
@@ -181,6 +201,10 @@ int randomNumber() {
     return rand() % 79;
 }
 
+
+int convert_x_axis(int x_accelarometer) {
+    return 96 - (int)((x_accelarometer + 255) * (96.0 / 510.0));
+}
 void draw_player() {
     unsigned char id = 0;
     I2Cerror rc;
@@ -188,7 +212,6 @@ void draw_player() {
     char yy[]="     ";
     char zz[]="     ";
     unsigned char xyz[6] = {0};
-
     i2c1_driver_driver_close();
     i2c1_open();
     //    rc = i2cWriteSlaveRegister(0x3A, 0x2D, 8);
@@ -212,7 +235,7 @@ void draw_player() {
 //    oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_BLACK);
 //    oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_BLACK);
 //    oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_BLACK);
-    oledC_DrawRectangle(x % 85,90,x % 85 + 10,95,OLEDC_COLOR_BLACK);
+    oledC_DrawRectangle(x_adapt ,90,x_adapt + 10,95,OLEDC_COLOR_BLACK);
     x = xyz[0]+xyz[1]*256;  //2xbytes ==> word
     y = xyz[2]+xyz[3]*256;
     z = xyz[4]+xyz[5]*256;
@@ -222,7 +245,8 @@ void draw_player() {
 //    oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_PURPLE);
 //    oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_PURPLE);
 //    oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_PURPLE);
-    oledC_DrawRectangle(x % 85,90,x % 85 + 10,95,OLEDC_COLOR_BLUE);
+    x_adapt = convert_x_axis(x);
+    oledC_DrawRectangle(x_adapt ,90,x_adapt + 10,95,OLEDC_COLOR_BLUE);
     
 }
 
@@ -231,11 +255,21 @@ void __attribute__((__interrupt__,auto_psv)) _T1Interrupt(void)
     if (flag) // the first object starts to fall
     {
         update_location_flag = true;
-        if(timer_counter % 3) generated_obstacle = false;
+//        if(timer_counter % 3) generated_obstacle = false;
         timer_counter++;
     }
     IFS0bits.T1IF=0;
 }
+
+void __attribute__((__interrupt__,auto_psv)) _T2Interrupt(void)
+{
+    if (flag) // the first object starts to fall
+    {
+        generated_obstacle = false;
+    }
+    IFS0bits.T2IF=0;
+}
+
 
 
 void __attribute__((__interrupt__,auto_psv)) _IOCInterrupt(void) {
@@ -258,11 +292,11 @@ int main(void)
     while(1) {
         // First we need to check if any IO interrupts occured from screen_2 so we can start the game 
         if(is_pressed_any_key == true) {
-            start_game();
             is_pressed_any_key = false;
+            start_game();
         }
-        if(flag && is_pressed_any_key == false) {
-            if(timer_counter % 3 && generated_obstacle == false) {
+        if(flag) {
+            if(/*timer_counter % 3 */generated_obstacle == false) {
                 generated_obstacle = true;
                 if(amount_of_obstacles == 30) {
                     amount_of_obstacles = 0;
@@ -282,8 +316,8 @@ int main(void)
             }
             if(update_location_flag) {
                 update_location_flag = false;
-//                update_list();
-//                drawShapes();
+                update_list();
+                drawShapes();
                 draw_player();
             }
  ////////////////////////////////////////////////
@@ -297,8 +331,8 @@ int main(void)
 //            oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_SKYBLUE);
 //            oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_SKYBLUE);
 //            oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_SKYBLUE);        
-            }
-    /////////////////////////////////////////////////
         }
-    return 1;
+    /////////////////////////////////////////////////
     }
+    return 1;
+}
