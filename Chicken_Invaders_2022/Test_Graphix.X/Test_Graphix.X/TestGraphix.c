@@ -225,6 +225,16 @@ void flags_init() {
     x = 0; 
     y = 0; 
     z = 0;
+    countObs= 0;
+    OC1R = 0;
+    OC2R = 1023;
+    OC3R = 0;
+    uint16_t color[10];
+    int8_t x;
+    for (x=10 ; x<20 ; ++x)
+      oledC_ReadPoint(x, 10);
+    int j= color[0];
+    DELAY_milliseconds(100);
 }
 
 void screen_game_over() {
