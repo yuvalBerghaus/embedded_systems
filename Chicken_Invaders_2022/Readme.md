@@ -7,16 +7,6 @@ The objective of the game is to control the blue-colored space ship with the mov
 Each step of the frame takes 1 second, and the player's movement will not be delayed.
 
 If an obstacle hits the space ship, the game is over. You can restart the game by pressing the S3 button.
-
-Here's a visual guide to help you understand the game better:
-
-<h2>Space War Game Screen</h2>
-<img src="https://i.ibb.co/McZ94x7/first-Screen.jpg">
-<br>
-<img src="https://i.ibb.co/Bt4WH2Z/second-screen.jpg">
-<br>
-<img src="https://i.ibb.co/fFSvpkg/game-screen.jpg">
-<br>
 <b>Space Ship (Blue)</b>: This is the player-controlled space ship. Use the accelerometer to move it around and avoid the obstacles.
 
 <b>Obstacle (Purple)</b>: These are the falling obstacles that you need to avoid. If they hit the space ship, the game is over.
@@ -28,3 +18,14 @@ Here's a visual guide to help you understand the game better:
 <b>Game Over</b>: If an obstacle hits the space ship, the game is over. You can restart the game by pressing the S1 button.
 
 We hope you enjoy playing Space War!
+
+
+Here's a visual guide to help you understand the game better:
+
+<h2>Space War Game Screen</h2>
+<img src="https://i.ibb.co/McZ94x7/first-Screen.jpg">
+<br>
+<img src="https://i.ibb.co/Bt4WH2Z/second-screen.jpg">
+<br>
+<img src="https://i.ibb.co/fFSvpkg/game-screen.jpg">
+
