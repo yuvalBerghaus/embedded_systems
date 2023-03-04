@@ -1,5 +1,6 @@
 <h1>Welcome to Space War!</h1>
-
+<br>
+<img src="https://media.istockphoto.com/id/1277822133/photo/futuristic-scifi-battle-ships-hover-over-an-alien-planet.jpg?s=612x612&w=0&k=20&c=JSZtYp2TtvE19LWxOV1mhgfpvZX6Y-jxlC-KRwYi6cs=">
 To start the game, wait for 3 seconds until the Space Wars screen is displayed, and then press any key to continue.
 
 The objective of the game is to control the blue-colored space ship with the movement of the board using the accelerometer, avoid the falling purple-colored obstacles, and shoot them down using the red-colored laser beam.
