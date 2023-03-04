@@ -6,7 +6,7 @@ The objective of the game is to control the blue-colored space ship with the mov
 
 Each step of the frame takes 1 second, and the player's movement will not be delayed.
 
-If an obstacle hits the space ship, the game is over. You can restart the game by pressing the S1 button.
+If an obstacle hits the space ship, the game is over. You can restart the game by pressing the S3 button.
 
 Here's a visual guide to help you understand the game better:
 
