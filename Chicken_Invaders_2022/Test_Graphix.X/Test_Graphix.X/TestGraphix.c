@@ -1,8 +1,8 @@
 /*
  * File:   LabC2.c
- * Author: Amit
+ * Author: Yuval Berghaus and Moran Amar
  *
- * Created on April 11, 2021, 16:17 AM
+ * Created on January 29, 2023, 16:17 PM
  */
 
 
@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-
 #include "System/system.h"
 #include "System/delay.h"
 #include "oledDriver/oledC.h"
@@ -25,7 +24,7 @@
 #define Fosc 32000000UL   // Oscillator frequency in Hz
 #define TICK_PERIOD (Fosc / 4 / 8)  // Timer tick period
 #define INTERRUPT_PERIOD (3UL * TICK_PERIOD) // Interrupt period in timer ticks
-#define SIZE_ARRAY 30
+#define SIZE_ARRAY 50
 int flag = false; // global variable flag that represents the transition from screen_2 to the game when it becomes true
 int timer_counter = 1;
 uint8_t jump_down = 10;
@@ -113,7 +112,6 @@ bool check_collisions() {
     int i,j;
     for (i = 0; i < amount_of_lasers; i++) {
         SHAPE laser = laser_beams[i];
-      //  if (laser._type != 2) continue; // skip non-laser shapes
         for (j = 0; j < amount_of_obstacles; j++) {
             if(obstacles[j].hit == true) {
                 continue;
@@ -124,8 +122,6 @@ bool check_collisions() {
                 laser_beams[i].hit = true;
                 obstacles[j].hit = true;
                 countObs--;
-                // mark obstacle as removed
-                //amount_of_obstacles--;
                 oledC_DrawRectangle(obstacles[j].x_start,obstacles[j].y_start,obstacles[j].x_end,obstacles[j].y_end,OLEDC_COLOR_BLACK);
                 oledC_DrawRectangle(laser_beams[i].x_start,laser_beams[i].y_start,laser_beams[i].x_end,laser_beams[i].y_end,OLEDC_COLOR_BLACK);
                 obstacles[j]._type = 0;
@@ -135,63 +131,43 @@ bool check_collisions() {
     }
     return false;
 }
-
-
 int convert_x_axis(int x_accelarometer) {
     return 96 - (int)((x_accelarometer + 255) * (96.0 / 510.0));
 }
 
-int get_x_axis_from_accel() {
+int getx_axis() {
     unsigned char id = 0;
     bool rc;
-    char xx[]="     ";
-    char yy[]="     ";
-    char zz[]="     ";
     unsigned char xyz[6] = {0};
     i2c1_driver_driver_close();
     i2c1_driver_driver_open();
-    //    rc = i2cWriteSlaveRegister(0x3A, 0x2D, 8);
-
 
     rc = i2cReadRegister(0x3A, 0, &id);
 
     if (rc == false)
         if(id == 0xE5)
-            //DELAY_microseconds(1);
             oledC_DrawString(10, 10, 2, 2, "", OLEDC_COLOR_BLACK);
         else
-            errorStop("Acc!Found");
+            errorStop("Acc");
     else
-        errorStop("I2C Error");
+        errorStop("Error");
 
     rc = i2cWriteRegister(0x3A, 0x2D, 8);
     for (i=0 ; i<6 ; ++i) {
         rc=i2cReadRegister(0x3A, 0x32+i, &xyz[i]);
         DELAY_microseconds(5);            
     }
-//    oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_BLACK);
-//    oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_BLACK);
-//    oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_BLACK);
-    x = xyz[0]+xyz[1]*256;  //2xbytes ==> word
+    x = xyz[0]+xyz[1]*256;
     y = xyz[2]+xyz[3]*256;
     z = xyz[4]+xyz[5]*256;
-    sprintf(xx, "%d", x);   //Make it a string
-    sprintf(yy, "%d", y);
-    sprintf(zz, "%d", z);
-//    oledC_DrawString(26, 30, 2, 2, xx, OLEDC_COLOR_PURPLE);
-//    oledC_DrawString(26, 50, 2, 2, yy, OLEDC_COLOR_PURPLE);
-//    oledC_DrawString(26, 70, 2, 2, zz, OLEDC_COLOR_PURPLE);
     return convert_x_axis(x);;
 }
+
 
 void update_frame() {
 
     //updating obstacles new location
     for(i = 0; i < amount_of_obstacles ; i++) {
-//        if(obstacles[i].hit == true) {
-//            amount_of_obstacles--;
-//            continue;
-//        }
         
         // when the obstacle arrives to the floor
         if(obstacles[i].y_end > 75) {
@@ -228,14 +204,6 @@ void update_frame() {
         }
     }
     
-    // updating player's location
-//    oledC_DrawRectangle(x_adapt ,90,x_adapt + 10,95,OLEDC_COLOR_BLACK);
-//    x_adapt = get_x_axis_from_accel();
-//    player.x_start = x_adapt;
-//    player.x_end = x_adapt + player.length;
-    
-    
-   // laser_beams[amount_of_lasers++]
 }
 
 void flags_init() {
@@ -262,9 +230,9 @@ void flags_init() {
 void screen_game_over() {
     oledC_clearScreen();
     DELAY_milliseconds(1000);
-    oledC_DrawString(0, 20, 2, 2, "Game Over", OLEDC_COLOR_DARKRED);
-    oledC_DrawString(10, 65, 1, 1, "Press S1 key", OLEDC_COLOR_WHITE); 
-    oledC_DrawString(20, 80, 1, 1, "to restart", OLEDC_COLOR_WHITE); 
+    oledC_DrawString(0, 20, 2, 2, (uint8_t*)"Game Over", OLEDC_COLOR_DARKRED);
+    oledC_DrawString(10, 65, 1, 1, (uint8_t*)"Press S1 key", OLEDC_COLOR_WHITE); 
+    oledC_DrawString(20, 80, 1, 1, (uint8_t*)"to restart", OLEDC_COLOR_WHITE); 
     flags_init();
 }
 
@@ -290,13 +258,12 @@ void drawShapes() {
         oledC_DrawRectangle(obstacles[i].x_start,obstacles[i].y_start-jump_down,obstacles[i].x_end,obstacles[i].y_end-jump_down,OLEDC_COLOR_BLACK);
         oledC_DrawRectangle(obstacles[i].x_start,obstacles[i].y_start,obstacles[i].x_end,obstacles[i].y_end,OLEDC_COLOR_PURPLE); // the enemy
     }
-//    oledC_DrawRectangle(player.x_start,player.y_start,player.x_end,player.y_end,OLEDC_COLOR_BLUE);
 }
 
 void drawSpaceShip() {
     // updating player's location
     oledC_DrawRectangle(x_adapt ,90,x_adapt + 10,95,OLEDC_COLOR_BLACK);
-    x_adapt = get_x_axis_from_accel();
+    x_adapt = getx_axis();
     player.x_start = x_adapt;
     player.x_end = x_adapt + player.length;
     oledC_DrawRectangle(player.x_start,player.y_start,player.x_end,player.y_end,OLEDC_COLOR_BLUE);
@@ -304,18 +271,18 @@ void drawSpaceShip() {
 
 void display_screen1() {
     oledC_clearScreen();
-    oledC_DrawString(10, 10, 2, 2, "Shenkar", OLEDC_COLOR_WHITE); 
-    oledC_DrawString(23, 35, 2, 2, "TECH", OLEDC_COLOR_WHITE); 
-    oledC_DrawString(5, 55, 2, 2, "Presents", OLEDC_COLOR_WHITE); 
-    oledC_DrawString(20, 75, 1, 1, "........", OLEDC_COLOR_WHITE); 
+    oledC_DrawString(10, 10, 2, 2, (uint8_t*)"Shenkar", OLEDC_COLOR_WHITE); 
+    oledC_DrawString(23, 35, 2, 2, (uint8_t*)"TECH", OLEDC_COLOR_WHITE); 
+    oledC_DrawString(5, 55, 2, 2, (uint8_t*)"Presents", OLEDC_COLOR_WHITE); 
+    oledC_DrawString(20, 75, 1, 1, (uint8_t*)"........", OLEDC_COLOR_WHITE); 
 }
 
 void display_screen2() {
     oledC_clearScreen();
-    oledC_DrawString(20, 10, 2, 2, "Space", OLEDC_COLOR_WHITE); 
-    oledC_DrawString(25, 35, 2, 2, "Wars", OLEDC_COLOR_WHITE); 
-    oledC_DrawString(5, 65, 1, 1, "Press any key", OLEDC_COLOR_WHITE); 
-    oledC_DrawString(22, 80, 1, 1, "to begin", OLEDC_COLOR_WHITE); 
+    oledC_DrawString(20, 10, 2, 2, (uint8_t*)"Space", OLEDC_COLOR_WHITE); 
+    oledC_DrawString(25, 35, 2, 2, (uint8_t*)"Wars", OLEDC_COLOR_WHITE); 
+    oledC_DrawString(5, 65, 1, 1, (uint8_t*)"Press any key", OLEDC_COLOR_WHITE); 
+    oledC_DrawString(22, 80, 1, 1, (uint8_t*)"to begin", OLEDC_COLOR_WHITE); 
 }
 
 void generate_player() {
@@ -392,7 +359,7 @@ void Init() {
 }
 
 void errorStop(char *msg) {
-    oledC_DrawString(0, 20, 2, 2, msg, OLEDC_COLOR_DARKRED);
+    oledC_DrawString(0, 20, 2, 2, (uint8_t*)msg, OLEDC_COLOR_DARKRED);
     for (;;);
 }
 
@@ -414,7 +381,6 @@ int randomNumber() {
 void __attribute__((__interrupt__, auto_psv)) _T1Interrupt(void) {
     if (flag && update_location_flag == false) { // the first object starts to fall
         update_location_flag = true;
-//        if(timer_counter % 3) generated_obstacle = false;
         timer_counter++;
     }
     IFS0bits.T1IF = 0;
@@ -434,11 +400,6 @@ void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void) {
 transfer us to the starting game and whenever we click the starting game the button s2 
 then it will put flag to generate laser*/
 void __attribute__((__interrupt__, auto_psv)) _IOCInterrupt(void) {
-//    if (PORTAbits.RA12 == 0) {
-//        flag = true;
-//    } else if (PORTAbits.RA11 == 0) {
-//        flag = true;
-//    }
     if (flag && generated_laser_beam == false) {
         generated_laser_beam = true;
     }
@@ -531,7 +492,7 @@ int main(void) {
             //every 3 seconds generated_obstacle flag will be true from the start of the game
             if (generated_obstacle == true) {
                 generated_obstacle = false;
-                if (amount_of_obstacles == 30) {
+                if (amount_of_obstacles == SIZE_ARRAY) {
                     amount_of_obstacles = 0;
                 }
                 uint8_t random_number = randomNumber();
@@ -549,7 +510,7 @@ int main(void) {
             }
             if (generated_laser_beam == true) {
                 generated_laser_beam = false;
-                if (amount_of_lasers == 30) {
+                if (amount_of_lasers == SIZE_ARRAY) {
                     amount_of_lasers = 0;
                 }
                 SHAPE laser;
